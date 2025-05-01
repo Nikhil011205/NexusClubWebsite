@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Finance Club - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+        body { line-height: 1.6; -webkit-font-smoothing: antialiased; font-family: var(--font-primary); background-color: var(--color-bg); color: var(--color-text); transition: background-color var(--transition-speed), color var(--transition-speed); position: relative; overflow-x: hidden; }
+        img, picture, video, canvas, svg { display: block; max-width: 100%; }
+        input, button, textarea, select { font: inherit; }
+        h1, h2, h3, h4, h5, h6 { line-height: 1.2; overflow-wrap: break-word; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        :root {
+            --font-primary: 'Lato', sans-serif;
+            --font-heading: 'Playfair Display', serif;
+            --color-bg: #f8f9fa;
+            --color-text: #343a40;
+            --color-heading: #212529;
+            --color-primary: #4a7c59;
+            --color-primary-darker: #3a6347;
+            --color-secondary: #e9ecef;
+            --color-accent: #6c757d;
+            --color-dot-pattern: rgba(74, 124, 89, 0.1);
+            --color-nav-bg: #ffffff;
+            --color-border: #dee2e6;
+            --color-section-bg: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 6px;
+            --transition-speed: 0.2s ease-in-out;
+            --header-height: 70px;
+        }
+
+        html.dark-theme {
+            --color-bg: #212529;
+            --color-text: #e9ecef;
+            --color-heading: #f8f9fa;
+            --color-primary: #5a9a6f;
+            --color-primary-darker: #4a7c59;
+            --color-secondary: #343a40;
+            --color-accent: #adb5bd;
+            --color-dot-pattern: rgba(90, 154, 111, 0.1);
+            --color-nav-bg: #343a40;
+            --color-border: #495057;
+            --color-section-bg: #2c3034;
+        }
+
+        body::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(var(--color-dot-pattern) 1px, transparent 1px); background-size: 15px 15px; z-index: -1; transition: background-image var(--transition-speed); }
+        .container { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+
+        .main-header { background-color: var(--color-nav-bg); border-bottom: 1px solid var(--color-border); padding: 0.75rem 0; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm); transition: background-color var(--transition-speed), border-color var(--transition-speed); height: var(--header-height); display: flex; align-items: center; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; color: var(--color-heading); }
+        .main-nav ul { display: flex; gap: 1.5rem; }
+        .main-nav a { padding: 0.5rem 0; font-weight: 700; color: var(--color-accent); position: relative; transition: color var(--transition-speed); }
+        .main-nav a:hover, .main-nav a.active { color: var(--color-heading); }
+        .main-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--color-primary); transition: width var(--transition-speed); }
+        .main-nav a:hover::after, .main-nav a.active::after { width: 100%; }
+        .header-actions { display: flex; align-items: center; gap: 1rem; }
+        .theme-toggle-btn, .join-now-btn { padding: 0.5rem 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); cursor: pointer; transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed); }
+        .theme-toggle-btn { background-color: transparent; color: var(--color-accent); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; }
+        .theme-toggle-btn:hover { background-color: var(--color-secondary); border-color: var(--color-accent); }
+        .theme-toggle-btn svg { width: 18px; height: 18px; fill: currentColor; }
+        .dark-theme .theme-toggle-btn .sun-icon { display: block; } .dark-theme .theme-toggle-btn .moon-icon { display: none; } html:not(.dark-theme) .theme-toggle-btn .sun-icon { display: none; } html:not(.dark-theme) .theme-toggle-btn .moon-icon { display: block; }
+        .join-now-btn { background-color: var(--color-primary); color: #ffffff; font-weight: 700; border-color: var(--color-primary); }
+        .join-now-btn:hover { background-color: var(--color-primary-darker); border-color: var(--color-primary-darker); }
+
+        main section { padding: 4rem 0; }
+        main section:last-child { border-bottom: none; }
+        .section-title { font-family: var(--font-heading); font-size: 2.5rem; color: var(--color-heading); margin-bottom: 1rem; text-align: center; }
+        .section-subtitle { display: block; max-width: 600px; margin: 0 auto 2.5rem auto; color: var(--color-accent); text-align: center; font-size: 1.1rem; }
+
+        .hero { padding: 4rem 0; min-height: calc(100vh - var(--header-height)); display: flex; align-items: center; padding-top: 0; }
+        .hero .container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .hero-content h1 { font-family: var(--font-heading); font-size: 3.5rem; color: var(--color-heading); margin-bottom: 1rem; line-height: 1.1; }
+        .hero-content h1 span { color: var(--color-primary); }
+        .hero-content p { font-size: 1.1rem; margin-bottom: 2rem; max-width: 500px; color: var(--color-accent); }
+        .hero-actions { display: flex; gap: 1rem; margin-bottom: 3rem; }
+        .hero-actions .btn { padding: 0.75rem 1.5rem; border-radius: var(--border-radius); font-weight: 700; transition: background-color var(--transition-speed), color var(--transition-speed), transform var(--transition-speed); display: inline-flex; align-items: center; justify-content: center; }
+        .hero-actions .btn-primary { background-color: var(--color-primary); color: #ffffff; border: 1px solid var(--color-primary); }
+        .hero-actions .btn-primary:hover { background-color: var(--color-primary-darker); border-color: var(--color-primary-darker); transform: translateY(-2px); }
+        .hero-actions .btn-secondary { background-color: transparent; color: var(--color-heading); border: 1px solid var(--color-border); }
+        .hero-actions .btn-secondary:hover { background-color: var(--color-secondary); border-color: var(--color-accent); transform: translateY(-2px); }
+        .hero-actions .btn-secondary svg { width: 1em; height: 1em; margin-left: 0.5em; transition: transform var(--transition-speed); }
+        .hero-actions .btn-secondary:hover svg { transform: translateX(3px); }
+        .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; }
+        .stat-item .number { font-size: 2.5rem; font-weight: 700; color: var(--color-primary); font-family: var(--font-heading); }
+        .stat-item .label { font-size: 0.9rem; color: var(--color-accent); text-transform: uppercase; letter-spacing: 0.5px; }
+        .hero-graphic { background-color: var(--color-secondary); border-radius: var(--border-radius); min-height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--color-border); transition: background-color var(--transition-speed), border-color var(--transition-speed); color: var(--color-accent); }
+        .hero-graphic svg { width: 80px; height: 80px; opacity: 0.5; }
+
+        #about { background-color: var(--color-section-bg); transition: background-color var(--transition-speed); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+        .about-container { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
+        .about-title { text-align: left; margin-bottom: 0.5rem; }
+        .about-subtitle { color: var(--color-accent); margin-bottom: 2rem; font-size: 1.1rem; }
+        .about-image-placeholder { background-color: var(--color-secondary); border-radius: var(--border-radius); min-height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--color-border); margin-bottom: 2rem; color: var(--color-accent); transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .about-image-placeholder svg { width: 60px; height: 60px; opacity: 0.5; }
+        .about-main p { margin-bottom: 1.5rem; color: var(--color-text); }
+        .about-tabs { margin-top: 3rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-bg); transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .tab-buttons { display: flex; border-bottom: 1px solid var(--color-border); background-color: var(--color-secondary); border-radius: var(--border-radius) var(--border-radius) 0 0; transition: background-color var(--transition-speed), border-color var(--transition-speed); overflow: hidden; }
+        .tab-buttons li { flex-grow: 1; }
+        .tab-button { width: 100%; padding: 1rem 1.5rem; border: none; background-color: transparent; cursor: pointer; font-weight: 700; color: var(--color-accent); text-align: center; transition: background-color var(--transition-speed), color var(--transition-speed); border-right: 1px solid var(--color-border); }
+        .tab-buttons li:last-child .tab-button { border-right: none; }
+        .tab-button:hover { background-color: rgba(0, 0, 0, 0.05); } html.dark-theme .tab-button:hover { background-color: rgba(255, 255, 255, 0.05); }
+        .tab-button.active { color: var(--color-heading); background-color: var(--color-bg); border-bottom: 2px solid var(--color-primary); margin-bottom: -1px; }
+        .tab-content { padding: 2rem; }
+        .tab-panel { display: none; } .tab-panel.active { display: block; }
+        .tab-panel h3 { font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-heading); margin-bottom: 0.25rem; }
+        .panel-subtitle { color: var(--color-accent); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .values-list { list-style: none; padding-left: 0; } .values-list li { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+        .value-icon { background-color: var(--color-secondary); color: var(--color-primary); border-radius: 50%; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background-color var(--transition-speed); }
+        .value-icon svg { width: 20px; height: 20px; } .value-text h4 { font-size: 1.1rem; font-weight: 700; color: var(--color-heading); margin-bottom: 0.25rem; } .value-text p { font-size: 0.95rem; color: var(--color-text); margin-bottom: 0; }
+        .history-list { list-style: none; padding-left: 0; position: relative; } .history-list li { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; position: relative; align-items: flex-start; }
+        .history-year { background-color: var(--color-secondary); color: var(--color-primary); font-weight: 700; padding: 0.25rem 0.75rem; border-radius: var(--border-radius); font-size: 0.9rem; flex-shrink: 0; transition: background-color var(--transition-speed); }
+        .history-text h4 { font-size: 1.1rem; font-weight: 700; color: var(--color-heading); margin-bottom: 0.25rem; } .history-text p { font-size: 0.95rem; color: var(--color-text); margin-bottom: 0; }
+        .sidebar-card { background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; margin-bottom: 2rem; transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .sidebar-card:last-child { margin-bottom: 0; }
+        .sidebar-title { font-family: var(--font-heading); font-size: 1.3rem; color: var(--color-heading); margin-bottom: 0.25rem; display: flex; align-items: center; }
+        .sidebar-subtitle { color: var(--color-accent); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .stats-list { list-style: none; padding: 0; } .stats-list li { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--color-border); transition: border-color var(--transition-speed); } .stats-list li:last-child { border-bottom: none; }
+        .stat-icon { color: var(--color-primary); flex-shrink: 0; } .stat-icon svg { width: 20px; height: 20px; display: block; } .stat-label { flex-grow: 1; font-size: 0.95rem; color: var(--color-text); } .stat-value { font-weight: 700; font-size: 1rem; color: var(--color-heading); }
+        .team-list { list-style: none; padding: 0; } .team-list li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; } .team-list li:last-child { margin-bottom: 0; }
+        .team-img-placeholder { width: 50px; height: 50px; border-radius: 50%; background-color: var(--color-secondary); border: 1px solid var(--color-border); flex-shrink: 0; transition: background-color var(--transition-speed), border-color var(--transition-speed); display: flex; align-items: center; justify-content: center; color: var(--color-accent); }
+        .team-img-placeholder::before { content: '👤'; font-size: 1.5rem; opacity: 0.5; }
+        .team-info h4 { font-size: 1.1rem; font-weight: 700; color: var(--color-heading); margin-bottom: 0; } .team-info span { display: block; font-size: 0.9rem; color: var(--color-accent); margin-bottom: 0.25rem; } .team-info a { font-size: 0.9rem; color: var(--color-primary); text-decoration: none; word-break: break-all; } .team-info a:hover { text-decoration: underline; }
+
+        #events { transition: background-color var(--transition-speed); }
+        .event-filters { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .search-filter { position: relative; flex-grow: 1; min-width: 250px; }
+        #event-search { width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-secondary); color: var(--color-text); transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed); }
+        #event-search:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(74, 124, 89, 0.2); background-color: var(--color-bg); }
+        .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 1.25rem; height: 1.25rem; color: var(--color-accent); pointer-events: none; }
+        .other-filters { display: flex; gap: 0.75rem; }
+        .filter-btn { padding: 0.6rem 1rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-secondary); color: var(--color-text); cursor: pointer; font-weight: 500; transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .filter-btn:hover { background-color: var(--color-border); }
+        .event-category-tabs { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); transition: border-color var(--transition-speed); }
+        .category-tab-button { padding: 0.5rem 1.25rem; border: 1px solid var(--color-border); border-radius: 20px; background-color: transparent; color: var(--color-accent); cursor: pointer; font-weight: 700; transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed); }
+        .category-tab-button:hover { background-color: var(--color-secondary); border-color: var(--color-accent); color: var(--color-heading); }
+        .category-tab-button.active { background-color: var(--color-primary); color: #ffffff; border-color: var(--color-primary); }
+        .event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .event-card { background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color var(--transition-speed), border-color var(--transition-speed); }
+        .event-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .event-card-image-placeholder { height: 180px; background-color: var(--color-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-accent); position: relative; transition: background-color var(--transition-speed); }
+        .event-card-image-placeholder svg { width: 50px; height: 50px; opacity: 0.4; }
+        .event-category-tag { position: absolute; top: 1rem; left: 1rem; background-color: rgba(0, 0, 0, 0.6); color: #ffffff; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem; font-weight: 700; }
+        .event-category-tag[data-category="Workshop"] { background-color: var(--color-primary); } .event-category-tag[data-category="Conference"] { background-color: #007bff; } .event-category-tag[data-category="Networking"] { background-color: #fd7e14; } .event-category-tag[data-category="Competition"] { background-color: #dc3545; }
+        .event-card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .event-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
+        .event-card-title { font-family: var(--font-heading); font-size: 1.4rem; color: var(--color-heading); margin: 0; line-height: 1.3; flex-grow: 1; }
+        .event-date-badge { background-color: var(--color-secondary); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 0.5rem 0.75rem; text-align: center; font-weight: 700; font-size: 0.9rem; color: var(--color-accent); line-height: 1.1; flex-shrink: 0; transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .event-details { list-style: none; padding: 0; margin-bottom: 1rem; font-size: 0.95rem; color: var(--color-accent); } .event-details li { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; } .event-details svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--color-primary); }
+        .event-description { font-size: 0.95rem; color: var(--color-text); margin-bottom: 1.5rem; flex-grow: 1; }
+        .event-register-btn { display: block; width: 100%; text-align: center; padding: 0.75rem 1.5rem; background-color: var(--color-primary); color: #ffffff; border: none; border-radius: var(--border-radius); font-weight: 700; cursor: pointer; transition: background-color var(--transition-speed); margin-top: auto; }
+        .event-register-btn:hover { background-color: var(--color-primary-darker); }
+        .event-message { text-align: center; padding: 3rem 1rem; font-size: 1.1rem; color: var(--color-accent); font-style: italic; }
+
+        #resources { background-color: var(--color-section-bg); transition: background-color var(--transition-speed); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+        .market-overview-container { margin-bottom: 3rem; }
+        .index-summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+        .index-card { background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 1.5rem; text-align: center; transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed); box-shadow: var(--shadow-sm); }
+        .index-card:hover { box-shadow: var(--shadow-md); }
+        .index-name { display: block; font-size: 0.9rem; color: var(--color-accent); margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase; }
+        .index-value { display: block; font-size: 1.8rem; font-weight: 700; color: var(--color-heading); margin-bottom: 0.25rem; line-height: 1.2; }
+        .index-change { display: block; font-size: 1rem; font-weight: 700; }
+        .market-data-area { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; align-items: start; }
+        .market-summary-card .tab-buttons { margin-bottom: 0; border-top: none; border-left: none; border-right: none; border-radius: 0; background-color: transparent; }
+        .market-summary-card .tab-button { border-radius: var(--border-radius) var(--border-radius) 0 0; border: 1px solid var(--color-border); border-bottom: none; background-color: var(--color-secondary); }
+        .market-summary-card .tab-button.active { background-color: var(--color-bg); border-bottom: 1px solid var(--color-bg); margin-bottom: -1px; z-index: 1; position: relative; }
+        .market-table-container { border: 1px solid var(--color-border); border-top: none; border-radius: 0 0 var(--border-radius) var(--border-radius); overflow-x: auto; background-color: var(--color-bg); transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .market-table { width: 100%; border-collapse: collapse; }
+        .market-table th, .market-table td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--color-border); white-space: nowrap; transition: border-color var(--transition-speed); }
+        .market-table th { font-size: 0.85rem; font-weight: 700; color: var(--color-accent); text-transform: uppercase; background-color: var(--color-secondary); transition: background-color var(--transition-speed); }
+        .market-table tbody tr:last-child td { border-bottom: none; }
+        .market-table tbody tr:hover { background-color: var(--color-secondary); transition: background-color var(--transition-speed); }
+        .market-table td:nth-child(3), .market-table td:nth-child(4), .market-table td:nth-child(5) { text-align: right; font-weight: 700; }
+        .market-table tbody tr { cursor: pointer; }
+        .market-table tbody tr.selected-row { background-color: var(--color-primary-darker) !important; color: #ffffff; }
+        .market-table tbody tr.selected-row td { color: #ffffff; }
+        .market-table tbody tr.selected-row .positive, .market-table tbody tr.selected-row .negative { color: #ffffff; }
+        .positive { color: #28a745; } .negative { color: #dc3545; } .positive::before { content: '▲ '; } .negative::before { content: '▼ '; }
+        .loading { opacity: 0.6; font-style: italic; } .loading-text { text-align: center; color: var(--color-accent); font-style: italic; padding: 2rem; }
+        .stock-performance-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
+        .stock-performance-price { text-align: right; flex-shrink: 0; }
+        .current-price { display: block; font-size: 1.5rem; font-weight: 700; color: var(--color-heading); }
+        .current-change { display: block; font-size: 1rem; font-weight: 700; }
+        .chart-timespan-buttons { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .timespan-button { padding: 0.4rem 0.8rem; border: 1px solid var(--color-border); border-radius: var(--border-radius); background-color: var(--color-secondary); color: var(--color-accent); cursor: pointer; font-weight: 700; font-size: 0.85rem; transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed); }
+        .timespan-button:hover { background-color: var(--color-border); color: var(--color-heading); }
+        .timespan-button.active { background-color: var(--color-primary); color: #ffffff; border-color: var(--color-primary); }
+        .chart-container { position: relative; height: 250px; }
+        #stock-chart-canvas { display: block; width: 100% !important; height: 100% !important; }
+        .loading-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.7); display: flex; align-items: center; justify-content: center; color: var(--color-text); font-style: italic; z-index: 10; border-radius: var(--border-radius); }
+        html.dark-theme .loading-overlay { background-color: rgba(40, 40, 40, 0.7); }
+        .section-divider { border: none; border-top: 1px solid var(--color-border); margin: 4rem 0; transition: border-color var(--transition-speed); }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .news-card { background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color var(--transition-speed), border-color var(--transition-speed); }
+        .news-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .news-card-image { height: 180px; background-color: var(--color-secondary); background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; color: var(--color-accent); transition: background-color var(--transition-speed); }
+        .news-card-image svg { width: 50px; height: 50px; opacity: 0.4; }
+        .news-category-tag { position: absolute; top: 1rem; left: 1rem; background-color: rgba(0, 0, 0, 0.6); color: #ffffff; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem; font-weight: 700; }
+        .news-card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .news-card-date { font-size: 0.85rem; color: var(--color-accent); margin-bottom: 0.5rem; }
+        .news-card-title { font-family: var(--font-heading); font-size: 1.3rem; color: var(--color-heading); margin: 0 0 0.75rem 0; line-height: 1.3; text-decoration: none; }
+        .news-card-title a { color: inherit; text-decoration: none; } .news-card-title a:hover { color: var(--color-primary); text-decoration: underline; }
+        .news-card-snippet { font-size: 0.95rem; color: var(--color-text); flex-grow: 1; margin-bottom: 1rem; }
+        .news-card-source { font-size: 0.85rem; color: var(--color-accent); margin-top: auto; font-style: italic; }
+        .api-error-message { color: #dc3545; background-color: transparent; border: none; border-radius: var(--border-radius); padding: 0; margin-top: 1rem; font-size: 0.85rem; text-align: left; font-style: normal; }
+        .fallback-indicator { font-size: 0.7rem; font-style: italic; opacity: 0.6; margin-left: 8px; }
+        .sidebar-title .fallback-indicator { font-size: 0.65rem; }
+        .fallback-indicator-star { color: var(--color-accent); font-size: 0.8em; margin-left: 4px; }
+
+        #department { background-color: var(--color-bg); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); padding-top: 4rem; padding-bottom: 6rem; transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .department-carousel { position: relative; margin-top: 3rem; }
+        .carousel-track-container { overflow: hidden; border-radius: var(--border-radius); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); border: 1px solid var(--color-border); transition: border-color var(--transition-speed); }
+        .carousel-track { display: flex; list-style: none; padding: 0; margin: 0; transition: transform 0.5s ease-in-out; }
+        .department-slide { flex: 0 0 100%; min-width: 0; background-color: var(--color-section-bg); border-radius: var(--border-radius); transition: background-color var(--transition-speed); }
+        .department-slide.loading-state { display: flex; justify-content: center; align-items: center; min-height: 400px; color: var(--color-accent); font-style: italic; }
+        .slide-content { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; padding: 3rem 3.5rem; align-items: start; }
+        .department-description h3 { font-family: var(--font-heading); font-size: 2rem; color: var(--color-heading); margin-bottom: 1.5rem; }
+        .department-description p { color: var(--color-text); margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.05rem; }
+        .department-leads { background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--border-radius); padding: 2rem; transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .department-leads h4 { font-family: var(--font-heading); font-size: 1.3rem; color: var(--color-accent); margin-bottom: 2rem; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+        .lead-card { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; background-color: var(--color-secondary); padding: 1.25rem; border-radius: var(--border-radius); transition: background-color var(--transition-speed); }
+        .lead-card:last-child { margin-bottom: 0; }
+        .lead-photo-placeholder { width: 70px; height: 70px; border-radius: 50%; background-color: var(--color-border); border: 1px solid var(--color-accent); flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--color-accent); font-size: 2.5rem; transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .lead-info h5 { font-size: 1.2rem; font-weight: 700; color: var(--color-heading); margin-bottom: 0.2rem; } .lead-info span { display: block; font-size: 0.95rem; color: var(--color-accent); margin-bottom: 0.4rem; } .lead-info a { font-size: 0.95rem; color: var(--color-primary); text-decoration: none; word-break: break-all; } .lead-info a:hover { text-decoration: underline; }
+        .carousel-button { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.8); border: 1px solid var(--color-border); border-radius: 50%; width: 45px; height: 45px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; color: var(--color-heading); transition: background-color 0.2s ease, box-shadow 0.2s ease; box-shadow: var(--shadow-sm); }
+        .carousel-button:hover { background-color: #ffffff; box-shadow: var(--shadow-md); }
+        .carousel-button.prev { left: -22.5px; } .carousel-button.next { right: -22.5px; } .carousel-button svg { width: 28px; height: 28px; } .carousel-button.is-hidden { display: none; }
+        html.dark-theme .carousel-button { background-color: rgba(50, 50, 50, 0.8); color: var(--color-text); } html.dark-theme .carousel-button:hover { background-color: rgba(70, 70, 70, 1); }
+        .carousel-nav { display: flex; justify-content: center; gap: 1rem; margin-top: 2.5rem; }
+        .carousel-indicator { width: 14px; height: 14px; border-radius: 50%; background-color: var(--color-border); border: none; padding: 0; cursor: pointer; transition: background-color 0.2s ease; }
+        .carousel-indicator:hover { background-color: var(--color-accent); } .carousel-indicator.current-slide { background-color: var(--color-primary); }
+
+        .cta-section { padding: 5rem 0; background-color: var(--color-secondary); text-align: center; border-top: 1px solid var(--color-border); transition: background-color var(--transition-speed), border-color var(--transition-speed); }
+        .cta-icon { display: inline-flex; background-color: var(--color-primary); color: #ffffff; padding: 1rem; border-radius: 50%; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); }
+        .cta-icon svg { width: 32px; height: 32px; }
+        .cta-section h2 { font-family: var(--font-heading); font-size: 2.5rem; color: var(--color-heading); margin-bottom: 1rem; }
+        .cta-section p { color: var(--color-accent); max-width: 650px; margin-left: auto; margin-right: auto; margin-bottom: 2.5rem; font-size: 1.1rem; line-height: 1.7; }
+        .cta-buttons { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .cta-buttons .btn { padding: 0.75rem 1.75rem; font-size: 1rem; }
+
+        .main-footer-section { background-color: var(--color-heading); color: var(--color-accent); padding: 4rem 0 2rem 0; font-size: 0.95rem; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 3rem; margin-bottom: 3rem; }
+        .footer-about .footer-logo { display: inline-block; font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; color: var(--color-bg); margin-bottom: 1rem; } .footer-about .footer-logo:hover { color: var(--color-primary); }
+        .footer-tagline { line-height: 1.7; margin-bottom: 1.5rem; }
+        .footer-social { display: flex; gap: 1rem; align-items: center; } .footer-social a { color: var(--color-accent); transition: color var(--transition-speed); display: inline-block; } .footer-social a:hover { color: var(--color-primary); } .footer-social svg { display: block; }
+        .footer-links h4, .footer-contact h4 { font-size: 1.1rem; font-weight: 700; color: var(--color-bg); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-links ul, .footer-contact ul { list-style: none; padding: 0; margin: 0; } .footer-links li { margin-bottom: 0.75rem; } .footer-links a { color: var(--color-accent); transition: color var(--transition-speed); } .footer-links a:hover { color: var(--color-primary); text-decoration: underline; }
+        .footer-contact li { display: flex; align-items: flex-start; gap: 0.8rem; margin-bottom: 1rem; line-height: 1.6; } .footer-contact svg { flex-shrink: 0; margin-top: 0.2em; color: var(--color-primary); } .footer-contact a { color: var(--color-accent); transition: color var(--transition-speed); } .footer-contact a:hover { color: var(--color-primary); text-decoration: underline; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; }
+        .footer-copyright { color: var(--color-accent); }
+        .footer-legal a { color: var(--color-accent); margin-left: 1.5rem; transition: color var(--transition-speed); } .footer-legal a:hover { color: var(--color-primary); text-decoration: underline; }
+
+        @media (max-width: 992px) {
+            html { scroll-padding-top: 60px; } .main-header { height: 60px; }
+            .hero .container { grid-template-columns: 1fr; gap: 2rem; text-align: center; } .hero { min-height: calc(100vh - 60px); }
+            .hero-content p { margin-left: auto; margin-right: auto; } .hero-actions { justify-content: center; } .hero-stats { justify-content: center; gap: 2rem; } .hero-graphic { min-height: 300px; margin-top: 2rem; } .hero-content h1 { font-size: 3rem; } .section-title { font-size: 2.2rem; }
+            .about-container { grid-template-columns: 1fr; } .about-title { text-align: center; } .about-subtitle { text-align: center; } .about-sidebar { margin-top: 3rem; }
+            .market-data-area { grid-template-columns: 1fr; } .stock-performance-card { margin-top: 2rem; }
+            .slide-content { grid-template-columns: 1fr; gap: 2.5rem; padding: 2.5rem; } .department-leads { margin-top: 1.5rem; } .carousel-button.prev { left: 0.5rem; } .carousel-button.next { right: 0.5rem; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+        }
+        @media (max-width: 768px) {
+            .main-nav { display: none; }
+            .hero-content h1 { font-size: 2.5rem; } .hero-actions { flex-direction: column; align-items: center; } .hero-stats { flex-direction: column; gap: 1.5rem; align-items: center; } .stat-item .number { font-size: 2rem; } .section-title { font-size: 2rem; } main section { padding: 3rem 0; }
+            .tab-buttons { flex-direction: column; border-bottom: none; } .tab-button { padding: 0.75rem 1rem; border-right: none; border-bottom: 1px solid var(--color-border); } .tab-button.active { border-bottom: 2px solid var(--color-primary); margin-bottom: 0; } .tab-buttons li:last-child .tab-button { border-bottom: none; } .tab-content { padding: 1.5rem; } .history-list li { gap: 1rem; } .history-year { font-size: 0.8rem; padding: 0.2rem 0.5rem; }
+            .event-filters { flex-direction: column; align-items: stretch; } .event-category-tabs { justify-content: center; } .event-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; } .event-card-title { font-size: 1.3rem; }
+            .index-summary-cards { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; } .index-value { font-size: 1.5rem; } .index-change { font-size: 0.9rem; }
+            #department { padding-bottom: 5rem; } .slide-content { padding: 2rem 1.5rem; } .department-description h3 { font-size: 1.8rem; } .carousel-button { width: 40px; height: 40px; } .carousel-button svg { width: 22px; height: 22px; } .carousel-nav { gap: 0.75rem; margin-top: 2rem; } .carousel-indicator { width: 12px; height: 12px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; } .footer-social { justify-content: center; } .footer-contact li { justify-content: center; text-align: left; } .footer-bottom { flex-direction: column; text-align: center; } .footer-legal a { margin: 0 0.75rem; display: inline-block; margin-top: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#home" class="logo">Nexus Finance</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#department">Department</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 011.06.044l1.5 1.5a.75.75 0 01-1.06 1.06l-1.5-1.5a.75.75 0 01.044-1.06zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.894 17.894a.75.75 0 011.06 1.06l-1.5 1.5a.75.75 0 11-1.06-1.06l1.5-1.5zM12 18.75a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V19.5a.75.75 0 01.75-.75zM5.106 17.894a.75.75 0 011.06-1.06l1.5 1.5a.75.75 0 01-1.06 1.06l-1.5-1.5zM2.25 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3a.75.75 0 01-.75-.75zM6.106 5.106a.75.75 0 011.06 1.06l-1.5 1.5a.75.75 0 01-1.06-1.06l1.5-1.5a.75.75 0 011.06-.044z"></path></svg>
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-3.51 1.713-6.622 4.371-8.552a.75.75 0 01.818.162z" clip-rule="evenodd"></path></svg>
+                </button>
+                <a href="#contact" class="join-now-btn">Join Now</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Your Nexus to Financial <span>Excellence</span></h1>
+                    <p>Join Nexus Finance Club to gain practical knowledge, network with industry professionals, and develop the skills needed to excel in today's complex financial landscape.</p>
+                    <div class="hero-actions">
+                        <a href="#contact" class="btn btn-primary">Join Nexus</a>
+                        <a href="#events" class="btn btn-secondary">
+                            Explore Club Activities
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 1.2em; height: 1.2em; margin-left: 0.5em;"> <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" /> </svg>
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item"><div class="number">500+</div><div class="label">Active Members</div></div>
+                        <div class="stat-item"><div class="number">50+</div><div class="label">Annual Events</div></div>
+                        <div class="stat-item"><div class="number">12+</div><div class="label">Industry Partners</div></div>
+                    </div>
+                </div>
+                <div class="hero-graphic">
+                     <!-- image here -->
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /> </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container about-container">
+                <div class="about-main">
+                    <h2 class="section-title about-title">About Nexus Finance Club</h2>
+                    <p class="about-subtitle">Empowering students with financial knowledge and practical skills since 2010</p>
+                    <div class="about-image-placeholder">
+                         <!-- image here -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /> </svg>
+                    </div>
+                    <p>Nexus Finance Club was founded in 2010 with a mission to bridge the gap between classroom learning and real-world financial expertise. What began as a small group of finance enthusiasts has grown into one of the largest and most active student organizations on campus, with over 500 active members from diverse academic backgrounds.</p>
+                    <p>Our club is dedicated to fostering financial literacy, investment knowledge, and professional development among students. Through workshops, seminars, competitions, and networking events, we provide members with practical skills and connections that prepare them for successful careers in finance and beyond.</p>
+                    <p>We believe that financial knowledge is essential for everyone, regardless of their major or career aspirations. That's why our club welcomes students from all disciplines who share an interest in understanding the financial world and building a secure future.</p>
+                    <div class="about-tabs">
+                        <ul class="tab-buttons" role="tablist">
+                            <li><button class="tab-button active" role="tab" aria-selected="true" aria-controls="tab-mission-panel" id="tab-mission">Our Mission</button></li>
+                            <li><button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-values-panel" id="tab-values">Core Values</button></li>
+                            <li><button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-history-panel" id="tab-history">Our History</button></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-panel active" role="tabpanel" id="tab-mission-panel" aria-labelledby="tab-mission">
+                                <h3>Our Mission</h3><p class="panel-subtitle">What drives us every day</p>
+                                <p>Our mission is to empower students with the financial knowledge, practical skills, and professional connections needed to achieve financial independence and career success.</p>
+                                <p>We strive to create an inclusive community where members can learn, grow, and collaborate, regardless of their background or prior experience with finance. Through education, mentorship, and hands-on activities, we aim to prepare the next generation of financial leaders who will make a positive impact on the world.</p>
+                            </div>
+                            <div class="tab-panel" role="tabpanel" id="tab-values-panel" aria-labelledby="tab-values" hidden>
+                                <h3>Core Values</h3><p class="panel-subtitle">The principles that guide us</p>
+                                <ul class="values-list">
+                                    <li><div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg></div><div class="value-text"><h4>Education</h4><p>We believe in the power of financial education to transform lives and create opportunities.</p></div></li>
+                                    <li><div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-5.5-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM10 12a5.99 5.99 0 00-4.793 2.39A6.483 6.483 0 0010 16.5a6.483 6.483 0 004.793-2.11A5.99 5.99 0 0010 12z" clip-rule="evenodd" /></svg></div><div class="value-text"><h4>Community</h4><p>We foster an inclusive environment where members support each other's growth and success.</p></div></li>
+                                    <li><div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M15.98 6.018a.75.75 0 01.02 1.06l-4.25 4.5a.75.75 0 01-1.08 0l-1.75-1.855a.75.75 0 111.08-1.04l1.21 1.28 3.71-3.927a.75.75 0 011.06-.02z" clip-rule="evenodd" /><path d="M11.5 17.5a6.5 6.5 0 110-13 .75.75 0 010 1.5 5 5 0 100 10 .75.75 0 010 1.5zM18 11a6.5 6.5 0 11-13 0 .75.75 0 011.5 0 5 5 0 1010 0 .75.75 0 011.5 0z" /></svg></div><div class="value-text"><h4>Excellence</h4><p>We strive for excellence in all our activities, pushing members to reach their full potential.</p></div></li>
+                                    <li><div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.48 3.499a.75.75 0 011.04 1.08l-5.25 5.5a.75.75 0 01-1.08 0l-2.25-2.375a.75.75 0 111.08-1.04l1.71 1.805 4.75-5.02a.75.75 0 011.04-.05z" clip-rule="evenodd" /></svg></div><div class="value-text"><h4>Integrity</h4><p>We uphold the highest ethical standards in all our interactions and decisions.</p></div></li>
+                                </ul>
+                            </div>
+                            <div class="tab-panel" role="tabpanel" id="tab-history-panel" aria-labelledby="tab-history" hidden>
+                                <h3>Our History</h3><p class="panel-subtitle">The journey of Nexus Finance Club</p>
+                                <ul class="history-list">
+                                    <li><div class="history-year">2010</div><div class="history-text"><h4>Foundation</h4><p>Nexus Finance Club was founded by a group of 15 finance students looking to supplement their classroom education.</p></div></li>
+                                    <li><div class="history-year">2015</div><div class="history-text"><h4>Expansion</h4><p>The club expanded to include specialized departments, reaching 200 members from various academic backgrounds.</p></div></li>
+                                    <li><div class="history-year">2020</div><div class="history-text"><h4>Digital Transformation</h4><p>Adapted to virtual operations during the pandemic, launching online workshops and a digital resource library.</p></div></li>
+                                    <li><div class="history-year">Today</div><div class="history-text"><h4>Continued Growth</h4><p>Serving over 500 members, hosting dozens of events annually, and partnering with leading industry firms.</p></div></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="about-sidebar">
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 1.1em; height: 1.1em; margin-right: 0.4em; vertical-align: -0.1em;"><path d="M15.5 2A1.5 1.5 0 0014 3.5v13a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0016.5 2h-1zM9.5 6A1.5 1.5 0 008 7.5v9a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0010.5 6h-1zM3.5 10A1.5 1.5 0 002 11.5v5A1.5 1.5 0 003.5 18h1A1.5 1.5 0 006 16.5v-5A1.5 1.5 0 004.5 10h-1z" /></svg> Club Statistics</h3>
+                        <ul class="stats-list">
+                            <li><span class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.409-1.41a7.002 7.002 0 00-13.074.003z" /></svg></span><span class="stat-label">Active Members</span><span class="stat-value">500+</span></li>
+                            <li><span class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" /></svg></span><span class="stat-label">Annual Events</span><span class="stat-value">50+</span></li>
+                            <li><span class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.907a.75.75 0 00-1.966 0l-6.25 3.125a.75.75 0 00-.467.678v8.78c0 .311.176.59.445.718l6.25 2.875a.75.75 0 00.616 0l6.25-2.875a.75.75 0 00.445-.718v-8.78a.75.75 0 00-.467-.678l-6.25-3.125zM10 6.138l4.545 2.273-4.545 2.083v5.23l-4.545-2.084v-5.23L10 6.138zM10.75 11.25a.75.75 0 00-1.5 0v2.64l-3.4-1.558a.75.75 0 00-.6.276.75.75 0 00.277 1.098l3.723 1.709a.75.75 0 00.6 0l3.723-1.709a.75.75 0 00.277-1.098.75.75 0 00-.6-.276L10.75 13.89V11.25z" /></svg></span><span class="stat-label">Workshops</span><span class="stat-value">30+</span></li>
+                            <li><span class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 1a1 1 0 011-1h10a1 1 0 011 1v2.25a.75.75 0 01-1.5 0V3H6v14h9v-.25a.75.75 0 011.5 0V17a1 1 0 01-1 1H5a1 1 0 01-1-1V1zm9 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5a.75.75 0 01.75-.75zM8.5 7a.75.75 0 00-.75.75v3.5a.75.75 0 001.5 0v-3.5A.75.75 0 008.5 7z" clip-rule="evenodd" /></svg></span><span class="stat-label">Industry Partners</span><span class="stat-value">12+</span></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Executive Board</h3><p class="sidebar-subtitle">Meet our leadership team</p>
+                        <ul class="team-list">
+                            <li><div class="team-img-placeholder"></div><div class="team-info"><h4>Michael Chen</h4><span>President</span><a href="mailto:michael.chen@example.edu">michael.chen@example.edu</a></div></li>
+                            <li><div class="team-img-placeholder"></div><div class="team-info"><h4>Sarah Johnson</h4><span>Vice President</span><a href="mailto:sarah.johnson@example.edu">sarah.johnson@example.edu</a></div></li>
+                            <li><div class="team-img-placeholder"></div><div class="team-info"><h4>David Rodriguez</h4><span>Treasurer</span><a href="mailto:david.rodriguez@example.edu">david.rodriguez@example.edu</a></div></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Faculty Advisors</h3><p class="sidebar-subtitle">Our mentors and guides</p>
+                        <ul class="team-list">
+                            <li><div class="team-img-placeholder"></div><div class="team-info"><h4>Dr. Emily Wilson</h4><span>Professor of Finance</span><a href="mailto:emily.wilson@example.edu">emily.wilson@example.edu</a></div></li>
+                            <li><div class="team-img-placeholder"></div><div class="team-info"><h4>Prof. James Taylor</h4><span>Associate Professor of Economics</span><a href="mailto:james.taylor@example.edu">james.taylor@example.edu</a></div></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="events">
+            <div class="container">
+                <h2 class="section-title">Upcoming Events</h2>
+                <p class="section-subtitle">Join our workshops, seminars, and networking events to enhance your financial knowledge and connect with industry professionals</p>
+                <div class="event-filters">
+                    <div class="search-filter">
+                        <input type="search" id="event-search" placeholder="Search events..." aria-label="Search events">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <div class="other-filters"></div>
+                </div>
+                <ul class="event-category-tabs" role="tablist" aria-label="Event Categories">
+                    <li><button class="category-tab-button active" role="tab" data-category="All">All</button></li>
+                    <li><button class="category-tab-button" role="tab" data-category="Workshop">Workshops</button></li>
+                    <li><button class="category-tab-button" role="tab" data-category="Conference">Conferences</button></li>
+                    <li><button class="category-tab-button" role="tab" data-category="Networking">Networking</button></li>
+                    <li><button class="category-tab-button" role="tab" data-category="Competition">Competitions</button></li>
+                </ul>
+                <div class="event-grid" id="event-grid-container"></div>
+                <div id="event-loading" class="event-message" style="display: none;">Loading events...</div>
+                <div id="event-no-results" class="event-message" style="display: none;">No events found matching your criteria.</div>
+            </div>
+        </section>
+
+        <section id="resources">
+            <div class="container">
+                <div class="market-overview-container">
+                    <h2 class="section-title">Market Overview</h2>
+                    <p class="section-subtitle">Stay updated with near real-time market data and financial insights (Data may be delayed)</p>
+                    <div class="index-summary-cards" id="index-summary-container">
+                        <div class="index-card" id="index-nifty50"><span class="index-name">NIFTY 50</span><span class="index-value loading">--</span><span class="index-change loading">--</span></div>
+                        <div class="index-card" id="index-sensex"><span class="index-name">SENSEX</span><span class="index-value loading">--</span><span class="index-change loading">--</span></div>
+                        <div class="index-card" id="index-usdinr"><span class="index-name">USD/INR</span><span class="index-value loading">--</span><span class="index-change loading">--</span></div>
+                        <div class="index-card" id="index-btc"><span class="index-name">Bitcoin (USD)</span><span class="index-value loading">--</span><span class="index-change loading">--</span></div>
+                    </div>
+                    <div id="index-error" class="api-error-message" style="display: none;"></div>
+                    <div class="market-data-area">
+                        <div class="market-summary-card sidebar-card">
+                            <h3 class="sidebar-title">Market Summary</h3><p class="sidebar-subtitle">Near real-time market data across different asset classes</p>
+                            <ul class="market-tabs tab-buttons" role="tablist">
+                                <li><button class="market-tab-button tab-button" role="tab" data-market-type="Stocks">Stocks (INR)</button></li>
+                                <li><button class="market-tab-button tab-button active" role="tab" data-market-type="Crypto">Crypto (USD)</button></li>
+                                <li><button class="market-tab-button tab-button" role="tab" data-market-type="Forex">Forex</button></li>
+                            </ul>
+                            <div class="market-table-container">
+                                <table class="market-table">
+                                    <thead><tr><th>Symbol</th><th>Name</th><th>Price</th><th>Change</th><th>% Change</th></tr></thead>
+                                    <tbody id="market-data-tbody"><tr id="market-table-loading"><td colspan="5" class="loading-text">Loading data...</td></tr></tbody>
+                                </table>
+                                <div id="market-table-error" class="api-error-message" style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="stock-performance-card sidebar-card">
+                            <div class="stock-performance-header">
+                                <div><h3 class="sidebar-title" id="chart-stock-name">Bitcoin (BTC)</h3><p class="sidebar-subtitle">Asset Performance (USD)</p></div>
+                                <div class="stock-performance-price"><span class="current-price" id="chart-stock-price">--</span><span class="current-change" id="chart-stock-change">--</span></div>
+                            </div>
+                            <div class="chart-timespan-buttons">
+                                <button class="timespan-button active" data-symbol="RELIANCE.BSE" data-timespan="1M">1M</button>
+                                <button class="timespan-button" data-symbol="RELIANCE.BSE" data-timespan="3M">3M</button>
+                                <button class="timespan-button" data-symbol="RELIANCE.BSE" data-timespan="1Y">1Y</button>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="stock-chart-canvas"></canvas>
+                                <div id="chart-loading" class="loading-overlay" style="display: none;">Loading chart data...</div>
+                                <div id="chart-error" class="api-error-message" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="section-divider">
+                <div class="latest-news-container">
+                    <h2 class="section-title">Latest Financial News (India)</h2>
+                    <p class="section-subtitle">Stay informed with the latest developments in the Indian financial world</p>
+                    <div class="news-grid" id="news-grid-container"><div id="news-loading" class="loading-text">Loading news...</div></div>
+                    <div id="news-error" class="api-error-message" style="display: none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="department">
+            <div class="container">
+                <h2 class="section-title">Our Departments</h2>
+                <p class="section-subtitle">Explore the specialized wings within Nexus Finance Club</p>
+                <div class="department-carousel">
+                    <div class="carousel-track-container">
+                        <ul class="carousel-track" id="department-track"><li class="department-slide loading-state"><p>Loading Departments...</p></li></ul>
+                    </div>
+                    <button class="carousel-button prev is-hidden" aria-label="Previous Department"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" /></svg></button>
+                    <button class="carousel-button next is-hidden" aria-label="Next Department"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" /></svg></button>
+                    <div class="carousel-nav" id="department-nav-dots"></div>
+                    <div id="department-error" class="api-error-message" style="display: none; margin-top: 1rem;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="cta-section">
+            <div class="container">
+                <div class="cta-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>
+                </div>
+                <h2>Ready to Start Your Financial Journey?</h2>
+                <p>Join Nexus Finance Club today and gain access to exclusive resources, events, and a community of like-minded individuals passionate about finance.</p>
+                <div class="cta-buttons">
+                    <a href="#home" class="btn btn-primary">Become a Member</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer-section">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#home" class="footer-logo">Nexus Finance</a>
+                    <p class="footer-tagline">Empowering students with financial literacy and investment knowledge to build a secure future through education, networking, and practical experience.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10.01 10.01 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg></a>
+                        <a href="#" aria-label="Twitter" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="#" aria-label="LinkedIn" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="#" aria-label="Instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C8.74 2 8.33 2.02 7.25 2.07C6.17 2.12 5.42 2.35 4.84 2.57C4.27 2.78 3.8 3.07 3.32 3.54C2.85 4.02 2.56 4.49 2.35 5.06C2.13 5.64 1.9 6.39 1.85 7.47C1.8 8.55 1.78 8.96 1.78 12.22C1.78 15.48 1.8 15.89 1.85 16.97C1.9 18.05 2.13 18.8 2.35 19.38C2.56 19.95 2.85 20.42 3.32 20.9C3.8 21.37 4.27 21.66 4.84 21.87C5.42 22.09 6.17 22.32 7.25 22.37C8.33 22.42 8.74 22.44 12 22.44C15.26 22.44 15.67 22.42 16.75 22.37C17.83 22.32 18.58 22.09 19.16 21.87C19.73 21.66 20.2 21.37 20.68 20.9C21.15 20.42 21.44 19.95 21.65 19.38C21.87 18.8 22.1 18.05 22.15 16.97C22.2 15.89 22.22 15.48 22.22 12.22C22.22 8.96 22.2 8.55 22.15 7.47C22.1 6.39 21.87 5.64 21.65 5.06C21.44 4.49 21.15 4.02 20.68 3.54C20.2 3.07 19.73 2.78 19.16 2.57C18.58 2.35 17.83 2.12 16.75 2.07C15.67 2.02 15.26 2 12 2Zm0 1.8C15.18 3.8 15.58 3.82 16.6 3.87C17.6 3.92 18.2 4.11 18.6 4.28C19.03 4.46 19.33 4.69 19.63 4.99C19.93 5.29 20.16 5.59 20.34 6.02C20.51 6.42 20.7 7 20.75 8C20.8 8.92 20.82 9.32 20.82 12.22C20.82 15.12 20.8 15.52 20.75 16.44C20.7 17.36 20.51 17.96 20.34 18.39C20.16 18.82 19.93 19.12 19.63 19.42C19.33 19.72 19.03 19.95 18.6 20.13C18.2 20.3 17.6 20.49 16.6 20.54C15.58 20.59 15.18 20.61 12 20.61C8.82 20.61 8.42 20.59 7.4 20.54C6.4 20.49 5.8 20.3 5.4 20.13C4.97 19.95 4.67 19.72 4.37 19.42C4.07 19.12 3.84 18.82 3.66 18.39C3.49 17.96 3.3 17.36 3.25 16.44C3.2 15.52 3.18 15.12 3.18 12.22C3.18 9.32 3.2 8.92 3.25 8C3.3 7 3.49 6.42 3.66 6.02C3.84 5.59 4.07 5.29 4.37 4.99C4.67 4.69 4.97 4.46 5.4 4.28C5.8 4.11 6.4 3.92 7.4 3.87C8.42 3.82 8.82 3.8 12 3.8Zm0 3.18C9.55 6.98 7.48 9.05 7.48 12S9.55 17.02 12 17.02 16.52 14.95 16.52 12 14.45 6.98 12 6.98Zm0 8.24C10.62 15.22 9.48 14.08 9.48 12.7S10.62 10.18 12 10.18 14.52 11.32 14.52 12.7 13.38 15.22 12 15.22Zm5.19-8.41C17.71 6.81 18 7.05 18 7.41S17.71 8 17.19 8 16.38 7.76 16.38 7.41 16.67 6.81 17.19 6.81Z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li><li><a href="#about">About Us</a></li><li><a href="#events">Events</a></li><li><a href="#resources">Resources</a></li><li><a href="#department">Departments</a></li><li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Departments</h4>
+                    <ul>
+                        <li><a href="#department">Personal Finance</a></li><li><a href="#department">Investment</a></li><li><a href="#department">Trading & Markets</a></li><li><a href="#department">Corporate Finance</a></li><li><a href="#department">Consulting</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.274 1.765 11.842 11.842 0 00.757.433.574.574 0 00.28.14l.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg><span>University Campus, Finance Building, Room 301</span></li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" /><path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" /></svg><a href="mailto:contact@nexusfinance.club">contact@nexusfinance.club</a></li>
+                        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5h-1.528a14.456 14.456 0 01-12.69-12.69A1.5 1.5 0 013.5 2H5a1.5 1.5 0 011.5 1.5v.993c0 .649-.306 1.221-.794 1.599l-1.21.91c-.441.331-.441.989 0 1.32l.017.012a11.98 11.98 0 002.097 2.097l.012.017c.331.441.989.441 1.32 0l.91-1.21A1.5 1.5 0 0110.007 8H11a1.5 1.5 0 011.5 1.5v1.148A1.5 1.5 0 0111.325 14.11l-3.223-.716a1.5 1.5 0 01-1.052-1.767l.267-.933c.163-.395-.07-.833-.48-.95l-.933-.267a1.5 1.5 0 01-1.052-1.767l.716-3.223A1.5 1.5 0 018.352 3.5H9.5A1.5 1.5 0 0111 5v1.5a1.5 1.5 0 01-1.5 1.5h-.148a1.5 1.5 0 01-1.465-1.175l-.716-3.223A1.5 1.5 0 018.352 2H7a1.5 1.5 0 00-1.5 1.5v1.148A1.5 1.5 0 006.675 7.61l3.223.716a1.5 1.5 0 001.767 1.052l.933-.267c.395-.117.833.07.95.48l.933.267a1.5 1.5 0 001.767 1.052l3.223-.716A1.5 1.5 0 0018 12.648V11.5a1.5 1.5 0 00-1.5-1.5h-1.528a14.456 14.456 0 00-12.69-12.69A1.5 1.5 0 002 3.5v1.5z" clip-rule="evenodd" /></svg><a href="tel:+1234567890">(123) 456-7890</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© <span id="current-year"></span> Nexus Finance Club. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+            const applyTheme = (theme) => { if (theme === 'dark') { htmlElement.classList.add('dark-theme'); } else { htmlElement.classList.remove('dark-theme'); } };
+            const savedTheme = localStorage.getItem('nexusTheme') || 'light'; applyTheme(savedTheme);
+            themeToggleBtn.addEventListener('click', () => { const isDark = htmlElement.classList.contains('dark-theme'); const newTheme = isDark ? 'light' : 'dark'; applyTheme(newTheme); localStorage.setItem('nexusTheme', newTheme); });
+
+            const sections = document.querySelectorAll('main section[id]');
+            const navLinks = document.querySelectorAll('.main-nav a');
+            const header = document.querySelector('.main-header');
+            let headerHeight = header ? header.offsetHeight : 70;
+            window.addEventListener('resize', () => { headerHeight = header ? header.offsetHeight : 70; });
+
+            const activateNavLink = () => {
+                let currentSectionId = ''; const scrollPosition = window.scrollY;
+                sections.forEach(section => { const sectionTop = section.offsetTop - headerHeight - 1; const sectionHeight = section.offsetHeight; if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) { currentSectionId = section.getAttribute('id'); } });
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2) { const lastSection = sections[sections.length - 1]; if (lastSection) { currentSectionId = lastSection.getAttribute('id'); } }
+                navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === `#${currentSectionId}`) { link.classList.add('active'); } });
+                if (!currentSectionId && scrollPosition < sections[0]?.offsetTop - headerHeight) { const homeLink = document.querySelector('.main-nav a[href="#home"]'); if (homeLink) homeLink.classList.add('active'); }
+            };
+            window.addEventListener('scroll', activateNavLink); activateNavLink();
+
+            const tabContainer = document.querySelector('.about-tabs');
+            if (tabContainer) {
+                const tabButtons = tabContainer.querySelectorAll('.tab-button'); const tabPanels = tabContainer.querySelectorAll('.tab-panel');
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => { const targetPanelId = button.getAttribute('aria-controls'); tabButtons.forEach(btn => { btn.classList.remove('active'); btn.setAttribute('aria-selected', 'false'); }); tabPanels.forEach(panel => { panel.classList.remove('active'); panel.hidden = true; }); button.classList.add('active'); button.setAttribute('aria-selected', 'true'); const targetPanel = document.getElementById(targetPanelId); if (targetPanel) { targetPanel.classList.add('active'); targetPanel.hidden = false; } });
+                    button.addEventListener('keydown', (e) => { let newIndex; const currentIndex = Array.from(tabButtons).indexOf(e.target); if (e.key === 'ArrowRight') { newIndex = (currentIndex + 1) % tabButtons.length; } else if (e.key === 'ArrowLeft') { newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length; } else if (e.key === 'Home') { newIndex = 0; } else if (e.key === 'End') { newIndex = tabButtons.length - 1; } if (newIndex !== undefined) { tabButtons[newIndex].focus(); } });
+                });
+            }
+
+            const eventGridContainer = document.getElementById('event-grid-container');
+            const categoryTabsContainer = document.querySelector('.event-category-tabs');
+            const searchInput = document.getElementById('event-search');
+            const eventLoadingMessage = document.getElementById('event-loading');
+            const eventNoResultsMessage = document.getElementById('event-no-results');
+            let allEvents = []; let currentCategory = 'All'; let searchTerm = ''; let searchDebounceTimer;
+
+            function createEventCardHTML(event) { const eventDate = new Date(event.date + 'T00:00:00'); const formattedDate = event.displayDateRange || eventDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); const imagePlaceholderSVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>`; const dateIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" /></svg>`; const timeIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>`; const locationIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.274 1.765 11.842 11.842 0 00.757.433.574.574 0 00.28.14l.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd" /></svg>`; return `<div class="event-card" data-category="${event.category}"><div class="event-card-image-placeholder"><!-- image here --> ${imagePlaceholderSVG}<span class="event-category-tag" data-category="${event.category}">${event.category}</span></div><div class="event-card-content"><div class="event-card-header"><h3 class="event-card-title">${event.title}</h3>${event.displayDate ? `<div class="event-date-badge">${event.displayDate}</div>` : ''}</div><ul class="event-details"><li>${dateIcon} ${formattedDate}</li><li>${timeIcon} ${event.time}</li><li>${locationIcon} ${event.location}</li></ul><p class="event-description">${event.description}</p><a href="${event.registrationLink}" class="event-register-btn">Register Now</a></div></div>`; }
+            function renderEvents(eventsToRender) { if (!eventGridContainer) return; eventGridContainer.innerHTML = ''; if (eventsToRender.length === 0) { if(eventNoResultsMessage) eventNoResultsMessage.style.display = 'block'; } else { if(eventNoResultsMessage) eventNoResultsMessage.style.display = 'none'; eventsToRender.forEach(event => { eventGridContainer.innerHTML += createEventCardHTML(event); }); } }
+            function filterAndRenderEvents() { const lowerSearchTerm = searchTerm.toLowerCase(); const filteredEvents = allEvents.filter(event => { const categoryMatch = currentCategory === 'All' || event.category === currentCategory; const searchMatch = !searchTerm || event.title.toLowerCase().includes(lowerSearchTerm) || event.description.toLowerCase().includes(lowerSearchTerm) || event.category.toLowerCase().includes(lowerSearchTerm); return categoryMatch && searchMatch; }); renderEvents(filteredEvents); }
+            async function fetchEvents() { if (!eventGridContainer) return; if(eventLoadingMessage) eventLoadingMessage.style.display = 'block'; if(eventNoResultsMessage) eventNoResultsMessage.style.display = 'none'; eventGridContainer.innerHTML = ''; try { const response = await fetch('events.json'); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); allEvents = await response.json(); filterAndRenderEvents(); } catch (error) { console.error("Error fetching events:", error); eventGridContainer.innerHTML = '<p class="event-message error-message">Could not load events. Please try again later.</p>'; if(eventNoResultsMessage) eventNoResultsMessage.style.display = 'none'; } finally { if(eventLoadingMessage) eventLoadingMessage.style.display = 'none'; } }
+            if (categoryTabsContainer) { categoryTabsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('category-tab-button')) { categoryTabsContainer.querySelectorAll('.category-tab-button').forEach(tab => tab.classList.remove('active')); e.target.classList.add('active'); currentCategory = e.target.getAttribute('data-category'); filterAndRenderEvents(); } }); }
+            if (searchInput) { searchInput.addEventListener('input', (e) => { searchTerm = e.target.value; clearTimeout(searchDebounceTimer); searchDebounceTimer = setTimeout(filterAndRenderEvents, 300); }); }
+            fetchEvents();
+
+            const ALPHA_VANTAGE_API_KEY = 'AFDE3YQ5AWCBLCOD'; 
+            const NEWS_API_ORG_KEY = '6f36447831d94b239f03301567626f2b';
+            const CACHE_DURATION_MINUTES = 15;
+            const indexContainer = document.getElementById('index-summary-container'); const indexNiftyEl = document.getElementById('index-nifty50'); const indexSensexEl = document.getElementById('index-sensex'); const indexUsdInrEl = document.getElementById('index-usdinr'); const indexBtcEl = document.getElementById('index-btc'); const indexErrorEl = document.getElementById('index-error'); const marketTabsContainer = document.querySelector('.market-tabs'); const marketTableBody = document.getElementById('market-data-tbody'); const marketTableLoadingRow = document.getElementById('market-table-loading'); const marketTableErrorEl = document.getElementById('market-table-error'); const chartStockNameEl = document.getElementById('chart-stock-name'); const chartStockPriceEl = document.getElementById('chart-stock-price'); const chartStockChangeEl = document.getElementById('chart-stock-change'); const chartTimespanButtonsContainer = document.querySelector('.chart-timespan-buttons'); const chartCanvas = document.getElementById('stock-chart-canvas'); const chartLoadingEl = document.getElementById('chart-loading'); const chartErrorEl = document.getElementById('chart-error'); const newsGridContainer = document.getElementById('news-grid-container'); const newsLoadingEl = document.getElementById('news-loading'); const newsErrorEl = document.getElementById('news-error');
+            let chartInstance = null; let currentChartAsset = { type: 'crypto', id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', currency: 'USD' }; let currentChartTimespan = '1M'; let initialStockLoadDone = false;
+            const fallbackIndices = { 'NIFTYBEES.NSE': { price: '265.10', changePercent: '+0.45%' }, 'BSESN': { price: '74100.50', changePercent: '+0.60%' }, 'USDINR': { rate: '83.45' }, }; const fallbackStockTable = [ { symbol: 'RELIANCE.BSE', name: 'Reliance Industries', price: 2950.75, change: 15.20, changePercent: 0.52, currency: 'INR' }, { symbol: 'TCS.BSE', name: 'Tata Consultancy', price: 3850.10, change: -22.50, changePercent: -0.58, currency: 'INR' }, { symbol: 'HDFCBANK.BSE', name: 'HDFC Bank', price: 1450.90, change: 5.10, changePercent: 0.35, currency: 'INR' }, ]; const fallbackCryptoTable = [ { symbol: 'BTC', name: 'Bitcoin', price: 65000.00, change: 1200.00, changePercent: 1.85, currency: 'USD', id: 'bitcoin', isFallback: true }, { symbol: 'ETH', name: 'Ethereum', price: 3500.00, change: 150.00, changePercent: 4.50, currency: 'USD', id: 'ethereum', isFallback: true }, { symbol: 'USDT', name: 'Tether', price: 1.00, change: 0.00, changePercent: 0.01, currency: 'USD', id: 'tether', isFallback: true }, { symbol: 'BNB', name: 'BNB', price: 580.00, change: 5.50, changePercent: 0.95, currency: 'USD', id: 'binancecoin', isFallback: true }, { symbol: 'SOL', name: 'Solana', price: 150.00, change: 8.00, changePercent: 5.63, currency: 'USD', id: 'solana', isFallback: true }, ]; const fallbackNews = { articles: [ { title: "Market Sees Volatility Amid Global Cues", description: "Indian indices fluctuated today...", url: "#", source: { name: "Example News" }, publishedAt: new Date().toISOString(), urlToImage: null }, { title: "RBI Holds Key Rates Steady in Policy Meet", description: "The Reserve Bank of India decided...", url: "#", source: { name: "Financial Hub" }, publishedAt: new Date(Date.now() - 86400000).toISOString(), urlToImage: null }, { title: "Tech Sector Stocks Gain on Positive Earnings", description: "Major IT companies reported strong quarterly earnings...", url: "#", source: { name: "Business Today" }, publishedAt: new Date(Date.now() - 172800000).toISOString(), urlToImage: null }, ] };
+            function formatPrice(value, currency = 'USD') { const number = parseFloat(value); if (isNaN(number)) return '--'; const options = { style: 'currency', currency: currency }; if (currency === 'INR') { options.minimumFractionDigits = 2; options.maximumFractionDigits = 2; } else { if (number > 10000) options.minimumFractionDigits = 0; else if (number < 1) options.minimumFractionDigits = 4; else options.minimumFractionDigits = 2; options.maximumFractionDigits = number < 1 ? 6 : 2; } return number.toLocaleString(currency === 'INR' ? 'en-IN' : 'en-US', options); }
+            function formatChange(value, addSign = true, currency = 'INR') { const number = parseFloat(value); if (isNaN(number)) return '--'; const sign = number > 0 ? '+' : ''; const options = { minimumFractionDigits: 2, maximumFractionDigits: 2 }; if (Math.abs(number) > 10000) options.minimumFractionDigits = 0; return `${addSign ? sign : ''}${number.toLocaleString(currency === 'INR' ? 'en-IN' : 'en-US', options)}`; }
+            function formatIndexValue(value) { const number = parseFloat(value); if (isNaN(number)) return '--'; return number.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+            function formatPercentage(value) { const number = parseFloat(value); if (isNaN(number)) return '--'; const sign = number > 0 ? '+' : ''; return `${sign}${number.toFixed(2)}%`; }
+            function applyChangeClass(element, value) { if (!element) return; const number = parseFloat(value); element.classList.remove('positive', 'negative', 'loading'); if (isNaN(number)) { element.classList.add('loading'); return; } if (number > 0) element.classList.add('positive'); else if (number < 0) element.classList.add('negative'); }
+            function displayError(element, message, isFallback = false) { if (element) { element.textContent = `${isFallback ? '' : 'Error: '}${message}${isFallback ? '*' : ''}`; element.style.display = 'block'; element.style.color = isFallback ? 'var(--color-accent)' : '#dc3545'; element.style.backgroundColor = 'transparent'; element.style.border = 'none'; element.style.textAlign = 'left'; element.style.fontStyle = isFallback ? 'italic' : 'normal'; element.style.fontSize = '0.85rem'; } if (element === marketTableErrorEl && marketTableLoadingRow) marketTableLoadingRow.style.display = 'none'; if (element === chartErrorEl && chartLoadingEl) chartLoadingEl.style.display = 'none'; if (element === newsErrorEl && newsLoadingEl) newsLoadingEl.style.display = 'none'; if (element === indexErrorEl && indexContainer) { indexContainer.querySelectorAll('.loading').forEach(el => { el.textContent= isFallback ? '-- *' : 'Error'; el.classList.remove('loading'); }); } }
+            function hideError(element) { if (element) element.style.display = 'none'; }
+            function addFallbackIndicator(element, isError = false) { if (!element) return; removeFallbackIndicator(element); const indicator = document.createElement('span'); indicator.className = 'fallback-indicator-star'; indicator.textContent = '*'; indicator.style.color = isError ? '#dc3545' : 'var(--color-accent)'; indicator.style.fontSize = '0.8em'; indicator.style.marginLeft = '4px'; indicator.title = isError ? 'Error loading live data' : 'Showing static/fallback data'; element.appendChild(indicator); }
+            function removeFallbackIndicator(element) { const existing = element?.querySelector('.fallback-indicator-star'); if (existing) existing.remove(); }
+            function getCachedData(key) { const cached = localStorage.getItem(key); if (!cached) return null; try { const { timestamp, data } = JSON.parse(cached); const now = Date.now(); const cacheAgeMinutes = (now - timestamp) / (1000 * 60); if (cacheAgeMinutes < CACHE_DURATION_MINUTES) { console.log(`CACHE HIT for ${key}`); return data; } else { console.log(`CACHE EXPIRED for ${key}`); localStorage.removeItem(key); return null; } } catch (e) { localStorage.removeItem(key); return null; } }
+            function setCachedData(key, data) { try { const item = { timestamp: Date.now(), data: data }; localStorage.setItem(key, JSON.stringify(item)); console.log(`CACHE SET for ${key}`); } catch (e) { console.error("Error setting cache:", e); } }
+            async function fetchWrapper(url, options = {}, cacheKey = null, forceRefresh = false) { const useCache = cacheKey && url.includes('alphavantage.co'); const isAlphaVantage = url.includes('alphavantage.co'); if (useCache && !forceRefresh) { const cachedData = getCachedData(cacheKey); if (cachedData) return cachedData; } console.log(`FETCHING: ${cacheKey || url.substring(0, 100)}...`); try { const response = await fetch(url, options); const responseData = await response.json(); if (!response.ok) { console.error("API Error Response Data:", responseData); let errorMessage = `HTTP error! Status: ${response.status}`; if (responseData?.message) errorMessage += ` | Message: ${responseData.message}`; if (responseData?.Note) errorMessage += ` | Note: ${responseData.Note}`; if (responseData?.Information) errorMessage += ` | Info: ${responseData.Information}`; if (responseData?.code) errorMessage += ` | Code: ${responseData.code}`; if (responseData["Error Message"]) errorMessage += ` | Error: ${responseData["Error Message"]}`; throw new Error(errorMessage); } if (isAlphaVantage && (responseData.Note || responseData["Error Message"] || responseData.Information)) { let note = responseData.Note || responseData.Information || responseData["Error Message"]; console.warn(`API Info/Warning for ${cacheKey || 'AV Call'}:`, note); if ((note && note.toLowerCase().includes('limit')) || responseData["Error Message"]) { throw new Error(`API Issue: ${note}`); } if (responseData['Global Quote'] || responseData['Time Series (Daily)'] || responseData['Realtime Currency Exchange Rate']) { return responseData; } else { throw new Error(`API Info/Warning: ${note}`); } } if (useCache && responseData && !responseData.error) { setCachedData(cacheKey, responseData); } return responseData; } catch (error) { console.error("Fetch Error:", url, error); return { error: true, message: error.message }; } }
+            function generateFallbackChartData(days = 30, startPrice = 1000, volatility = 0.02) { console.warn(`Generating random fallback chart data for ${days} days.`); const labels = []; const prices = []; let currentDate = new Date(); let currentPrice = startPrice; for (let i = 0; i < days; i++) { const dateStr = currentDate.toISOString().split('T')[0]; labels.unshift(dateStr); prices.unshift(currentPrice); const changePercent = (Math.random() - 0.5) * 2 * volatility; currentPrice *= (1 + changePercent); currentPrice = Math.max(currentPrice, 1); currentDate.setDate(currentDate.getDate() - 1); } return { labels, prices }; }
+            async function fetchAndRenderIndices(fetchAlphaVantage = false) { hideError(indexErrorEl); const symbols = { 'index-nifty50': { type: 'alpha', symbol: 'NIFTYBEES.NSE', name: 'NIFTY 50 (Proxy)' }, 'index-sensex': { type: 'alpha', symbol: 'BSESN', name: 'SENSEX' }, 'index-usdinr': { type: 'alpha-forex', from: 'USD', to: 'INR', name: 'USD/INR' }, 'index-btc': { type: 'coingecko', id: 'bitcoin', name: 'Bitcoin (USD)' } }; let showGeneralError = false; for (const [elementId, config] of Object.entries(symbols)) { const cardElement = document.getElementById(elementId); const valueEl = cardElement?.querySelector('.index-value'); const changeEl = cardElement?.querySelector('.index-change'); const nameEl = cardElement?.querySelector('.index-name'); if (!valueEl || !changeEl || !nameEl) continue; nameEl.textContent = config.name; removeFallbackIndicator(valueEl); removeFallbackIndicator(changeEl); if (!fetchAlphaVantage && (config.type === 'alpha' || config.type === 'alpha-forex')) { valueEl.textContent = '--'; valueEl.className = 'index-value loading'; changeEl.textContent = '--'; changeEl.className = 'index-change loading'; continue; } valueEl.textContent = '--'; valueEl.className = 'index-value loading'; changeEl.textContent = '--'; changeEl.className = 'index-change loading'; let data; let isFallback = false; try { if (config.type === 'alpha' || config.type === 'alpha-forex') { if (!ALPHA_VANTAGE_API_KEY || ALPHA_VANTAGE_API_KEY === 'YOUR_ALPHA_VANTAGE_KEY_HERE') throw new Error("AV Key missing"); let url, cacheKey; if (config.type === 'alpha') { cacheKey = `av_quote_${config.symbol}`; url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${config.symbol}&apikey=${ALPHA_VANTAGE_API_KEY}`; } else { cacheKey = `av_forex_${config.from}_${config.to}`; url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${config.from}&to_currency=${config.to}&apikey=${ALPHA_VANTAGE_API_KEY}`; } data = await fetchWrapper(url, {}, cacheKey); if (data.error) { console.warn(`Using fallback for index ${config.symbol || config.name} due to error: ${data.message}`); isFallback = true; if (config.type === 'alpha') data = { 'Global Quote': fallbackIndices[config.symbol] }; else data = { 'Realtime Currency Exchange Rate': fallbackIndices['USDINR'] }; if (!data['Global Quote'] && !data['Realtime Currency Exchange Rate']) throw new Error("Fallback data missing"); } if (config.type === 'alpha') { const quote = data['Global Quote']; if (!quote || Object.keys(quote).length === 0) throw new Error(`No quote data`); valueEl.textContent = formatIndexValue(quote.price); changeEl.textContent = formatPercentage(parseFloat(quote.changePercent?.replace('%',''))); applyChangeClass(changeEl, parseFloat(quote.changePercent?.replace('%',''))); } else { const rateData = data['Realtime Currency Exchange Rate']; if (!rateData) throw new Error(`No rate data`); valueEl.textContent = parseFloat(rateData.rate || rateData['5. Exchange Rate']).toFixed(4); changeEl.textContent = '--'; applyChangeClass(changeEl, NaN); } } else if (config.type === 'coingecko') { const url = `https://api.coingecko.com/api/v3/simple/price?ids=${config.id}&vs_currencies=usd&include_24hr_change=true`; data = await fetchWrapper(url); if (data.error) throw new Error(data.message); const cryptoData = data[config.id]; if (!cryptoData) throw new Error(`No data`); valueEl.textContent = formatPrice(cryptoData.usd, 'USD'); changeEl.textContent = formatPercentage(cryptoData.usd_24h_change); applyChangeClass(changeEl, cryptoData.usd_24h_change); } valueEl.classList.remove('loading'); if (changeEl) changeEl.classList.remove('loading'); if (isFallback) { addFallbackIndicator(valueEl); if (changeEl) addFallbackIndicator(changeEl); } } catch (error) { console.error(`Error processing index ${config.symbol || config.id || config.name}:`, error); valueEl.textContent = 'Error'; valueEl.classList.remove('loading'); addFallbackIndicator(valueEl, true); if (changeEl) { changeEl.textContent = ''; changeEl.classList.remove('loading', 'positive', 'negative'); } showGeneralError = true; } } if (showGeneralError && fetchAlphaVantage) { displayError(indexErrorEl, "Could not load all live index data (*).", true); } }
+            async function fetchAndRenderMarketTable(marketType = 'Stocks') { marketTableBody.innerHTML = ''; marketTableLoadingRow.style.display = 'table-row'; hideError(marketTableErrorEl); marketTableBody.querySelectorAll('tr.selected-row').forEach(row => row.classList.remove('selected-row')); let isFallbackInUse = false; try { let dataToRender = []; if (marketType === 'Stocks') { if (!ALPHA_VANTAGE_API_KEY || ALPHA_VANTAGE_API_KEY === 'YOUR_ALPHA_VANTAGE_KEY_HERE') throw new Error("AV Key missing"); const symbols = ['RELIANCE.BSE', 'TCS.BSE', 'HDFCBANK.BSE']; const promises = symbols.map(async (symbol) => { const cacheKey = `av_quote_${symbol}`; const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${ALPHA_VANTAGE_API_KEY}`; const data = await fetchWrapper(url, {}, cacheKey); if (data.error) { console.warn(`Using fallback for table stock ${symbol} due to error: ${data.message}`); isFallbackInUse = true; const fallback = fallbackStockTable.find(s => s.symbol === symbol); return { symbol, quote: fallback, isFallback: true }; } return { symbol, quote: data['Global Quote'], isFallback: false }; }); const results = await Promise.all(promises); const nameMap = { 'RELIANCE.BSE': 'Reliance Industries', 'TCS.BSE': 'Tata Consultancy', 'HDFCBANK.BSE': 'HDFC Bank' }; results.forEach(result => { if (!result.quote || Object.keys(result.quote).length === 0) { console.warn(`Skipping ${result.symbol}`); return; } const price = result.isFallback ? result.quote.price : parseFloat(result.quote['05. price']); const change = result.isFallback ? result.quote.change : parseFloat(result.quote['09. change']); const changePercent = result.isFallback ? result.quote.changePercent : parseFloat(result.quote['10. change percent'].replace('%', '')); dataToRender.push({ symbol: result.symbol, name: nameMap[result.symbol] || result.symbol, price, change, changePercent, currency: 'INR', isFallback: result.isFallback }); }); } else if (marketType === 'Crypto') { const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false`; const results = await fetchWrapper(url); if (results.error) { console.warn(`Using fallback for crypto table due to error: ${results.message}`); isFallbackInUse = true; dataToRender = fallbackCryptoTable.map(item => ({...item})); } else { results.forEach(coin => { dataToRender.push({ symbol: coin.symbol.toUpperCase(), name: coin.name, price: coin.current_price, change: coin.price_change_24h, changePercent: coin.price_change_percentage_24h, currency: 'USD', isFallback: false, id: coin.id }); }); } } else if (marketType === 'Forex') { if (!ALPHA_VANTAGE_API_KEY || ALPHA_VANTAGE_API_KEY === 'YOUR_ALPHA_VANTAGE_KEY_HERE') throw new Error("AV Key missing"); const pairs = [{ from: 'USD', to: 'INR', name: 'USD/INR' }, { from: 'EUR', to: 'INR', name: 'EUR/INR' }, { from: 'GBP', to: 'INR', name: 'GBP/INR' }]; const promises = pairs.map(async (pair) => { const cacheKey = `av_forex_${pair.from}_${pair.to}`; const url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${pair.from}&to_currency=${pair.to}&apikey=${ALPHA_VANTAGE_API_KEY}`; const data = await fetchWrapper(url, {}, cacheKey); if (data.error) { console.warn(`Using fallback for forex ${pair.name} due to error: ${data.message}`); isFallbackInUse = true; const fallback = fallbackIndices['USDINR']; return { ...pair, rateData: fallback, isFallback: true }; } return { ...pair, rateData: data['Realtime Currency Exchange Rate'], isFallback: false }; }); const results = await Promise.all(promises); results.forEach(result => { if (!result.rateData) { console.warn(`Skipping ${result.name}`); return; }; const price = result.isFallback ? result.rateData.rate : result.rateData['5. Exchange Rate']; const name = result.isFallback ? result.name : `${result.rateData['2. From_Currency Name']} / ${result.rateData['4. To_Currency Name']}`; dataToRender.push({ symbol: result.name, name: name, price: parseFloat(price), change: null, changePercent: null, currency: 'Rate', isFallback: result.isFallback }); }); } marketTableLoadingRow.style.display = 'none'; if (dataToRender.length === 0) { if (marketType !== 'Forex') { throw new Error(`No valid data loaded for ${marketType}. Check console (API limits?).`); } else if (marketTableBody.rows.length === 0) { marketTableBody.innerHTML = `<tr><td colspan="5" class="loading-text">No Forex data available.</td></tr>`; } } dataToRender.forEach(item => { const row = marketTableBody.insertRow(); row.setAttribute('data-symbol', item.symbol); row.setAttribute('data-name', item.name); row.setAttribute('data-currency', item.currency); if (item.id) row.setAttribute('data-id', item.id); row.innerHTML = `<td>${item.symbol}${item.isFallback ? '<span class="fallback-indicator-star" title="Showing static/fallback data">*</span>':''}</td><td>${item.name}</td><td class="price">${item.currency === 'Rate' ? parseFloat(item.price).toFixed(4) : formatPrice(item.price, item.currency)}</td><td class="change">${item.change !== null ? formatChange(item.change, true, item.currency) : '--'}</td><td class="change-percent">${item.changePercent !== null ? formatPercentage(item.changePercent) : '--'}</td>`; if (item.changePercent !== null) { applyChangeClass(row.cells[3], item.changePercent); applyChangeClass(row.cells[4], item.changePercent); } else if (item.change !== null) { applyChangeClass(row.cells[3], item.change); } if ( (marketType === 'Stocks' && currentChartAsset.type === 'stock' && item.symbol === currentChartAsset.symbol) || (marketType === 'Crypto' && currentChartAsset.type === 'crypto' && item.id === currentChartAsset.id) ) { row.classList.add('selected-row'); } }); if (isFallbackInUse) { displayError(marketTableErrorEl, `Live data unavailable (*).`, true); } } catch (error) { console.error(`Error fetching market table data (${marketType}):`, error); marketTableLoadingRow.style.display = 'none'; hideError(marketTableErrorEl); let fallbackData = null; if (marketType === 'Stocks') fallbackData = fallbackStockTable; else if (marketType === 'Crypto') fallbackData = fallbackCryptoTable; if (fallbackData) { marketTableBody.innerHTML = ''; fallbackData.forEach(item => { const row = marketTableBody.insertRow(); row.setAttribute('data-symbol', item.symbol); row.setAttribute('data-name', item.name); row.setAttribute('data-currency', item.currency); if (item.id) row.setAttribute('data-id', item.id); row.innerHTML = `<td>${item.symbol}<span class="fallback-indicator-star" title="Showing static/fallback data">*</span></td><td>${item.name}</td><td class="price">${item.currency === 'Rate' ? parseFloat(item.price).toFixed(4) : formatPrice(item.price, item.currency)}</td><td class="change">${item.change !== null ? formatChange(item.change, true, item.currency) : '--'}</td><td class="change-percent">${item.changePercent !== null ? formatPercentage(item.changePercent) : '--'}</td>`; if (item.changePercent !== null) { applyChangeClass(row.cells[3], item.changePercent); applyChangeClass(row.cells[4], item.changePercent); } else if (item.change !== null) { applyChangeClass(row.cells[3], item.change); } if ( (marketType === 'Stocks' && currentChartAsset.type === 'stock' && item.symbol === currentChartAsset.symbol) || (marketType === 'Crypto' && currentChartAsset.type === 'crypto' && item.id === currentChartAsset.id) ) { row.classList.add('selected-row'); } }); displayError(marketTableErrorEl, `Live data unavailable (*).`, true); } else { displayError(marketTableErrorEl, `Could not load ${marketType} data. ${error.message}`); marketTableBody.innerHTML = `<tr><td colspan="5" class="loading-text">Could not load data.</td></tr>`; } } }
+            async function renderChart(asset, timespan = currentChartTimespan, forceRefresh = false) { if (!asset || !asset.type || (!asset.symbol && !asset.id)) { console.error("Invalid asset provided to renderChart:", asset); displayError(chartErrorEl, "Invalid asset selected for chart."); return; } chartLoadingEl.style.display = 'flex'; hideError(chartErrorEl); if (chartInstance) chartInstance.destroy(); currentChartAsset = asset; currentChartTimespan = timespan; chartTimespanButtonsContainer.querySelectorAll('.timespan-button').forEach(btn => { btn.classList.toggle('active', btn.getAttribute('data-timespan') === timespan); }); marketTableBody.querySelectorAll('tr.selected-row').forEach(row => row.classList.remove('selected-row')); const selectedRow = asset.type === 'stock' ? marketTableBody.querySelector(`tr[data-symbol="${asset.symbol}"]`) : marketTableBody.querySelector(`tr[data-id="${asset.id}"]`); if (selectedRow) selectedRow.classList.add('selected-row'); let chartData; let isFallback = false; let errorOccurred = null; const currency = asset.currency || (asset.type === 'stock' ? 'INR' : 'USD'); const chartLabel = `${asset.symbol || asset.id.toUpperCase()} Price (${currency})`; const yAxisFormatter = currency === 'INR' ? function(value) { return '₹' + value.toLocaleString('en-IN'); } : function(value) { return '$' + value.toLocaleString('en-US'); }; try { if (asset.type === 'stock') { if (!ALPHA_VANTAGE_API_KEY || ALPHA_VANTAGE_API_KEY === 'YOUR_ALPHA_VANTAGE_KEY_HERE') throw new Error("AV Key missing"); let functionType = 'TIME_SERIES_DAILY'; let outputSize = 'compact'; let dateKey = 'Time Series (Daily)'; let valueKey = '4. close'; if (timespan === '3M') outputSize = 'compact'; else if (timespan === '1Y') outputSize = 'full'; else outputSize = 'compact'; const cacheKey = `av_hist_${asset.symbol}_${functionType}_${outputSize}`; const url = `https://www.alphavantage.co/query?function=${functionType}&symbol=${asset.symbol}&outputsize=${outputSize}&apikey=${ALPHA_VANTAGE_API_KEY}`; const data = await fetchWrapper(url, {}, cacheKey, forceRefresh); if (data.error) throw new Error(data.message); const timeSeries = data[dateKey]; if (!timeSeries) throw new Error('No time series data received.'); const labels = Object.keys(timeSeries).reverse(); const prices = labels.map(date => parseFloat(timeSeries[date][valueKey])); chartData = { labels, prices }; } else if (asset.type === 'crypto') { const daysMap = { '1M': 30, '3M': 90, '1Y': 365 }; const days = daysMap[timespan] || 30; const url = `https://api.coingecko.com/api/v3/coins/${asset.id}/market_chart?vs_currency=usd&days=${days}&interval=daily`; const data = await fetchWrapper(url); if (data.error) throw new Error(data.message); if (!data.prices || data.prices.length === 0) throw new Error('No crypto price data received.'); const labels = data.prices.map(p => new Date(p[0]).toLocaleDateString('en-IN')); const prices = data.prices.map(p => p[1]); chartData = { labels, prices }; } else { throw new Error(`Unsupported asset type for chart: ${asset.type}`); } } catch (error) { console.error(`Error fetching chart data for ${asset.symbol || asset.id}:`, error); errorOccurred = error; isFallback = true; const daysMap = { '1M': 22, '3M': 66, '1Y': 252 }; const fallbackDays = daysMap[timespan] || 22; const startPriceText = selectedRow?.cells[2]?.textContent || (asset.type === 'crypto' ? '50000' : '1000'); const startPrice = parseFloat(startPriceText.replace(/[^0-9.-]+/g,"")) || (asset.type === 'crypto' ? 50000 : 1000); chartData = generateFallbackChartData(fallbackDays, startPrice); } try { let filteredLabels = chartData.labels; let filteredPrices = chartData.prices; const latestPrice = filteredPrices[filteredPrices.length - 1]; const previousPrice = filteredPrices[filteredPrices.length - 2] || latestPrice; const change = latestPrice - previousPrice; const changePercent = previousPrice === 0 ? 0 : (change / previousPrice) * 100; const assetName = asset.name || asset.symbol || asset.id; chartStockNameEl.textContent = `${assetName} (${asset.symbol || asset.id.toUpperCase()})`; removeFallbackIndicator(chartStockNameEl); if (isFallback) addFallbackIndicator(chartStockNameEl); chartStockPriceEl.textContent = formatPrice(latestPrice, currency); chartStockChangeEl.textContent = `${formatChange(change, true, currency)} (${formatPercentage(changePercent)})`; applyChangeClass(chartStockChangeEl, change); const ctx = chartCanvas.getContext('2d'); chartInstance = new Chart(ctx, { type: 'line', data: { labels: filteredLabels, datasets: [{ label: chartLabel, data: filteredPrices, borderColor: 'var(--color-primary)', borderWidth: 2, pointRadius: 0, tension: 0.1 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false, grid: { display: false } }, y: { display: true, grid: { color: 'rgba(128, 128, 128, 0.1)' }, ticks: { callback: yAxisFormatter } } }, plugins: { legend: { display: false } }, animation: { duration: 500 } } }); if (isFallback) { displayError(chartErrorEl, `Live chart data unavailable (*).`, true); } else { hideError(chartErrorEl); } } catch (renderError) { console.error(`Error rendering chart for ${asset.symbol || asset.id}:`, renderError); displayError(chartErrorEl, `Could not render chart. ${renderError.message}`); const ctx = chartCanvas.getContext('2d'); ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height); chartStockNameEl.textContent = `${asset.symbol || asset.id}`; chartStockPriceEl.textContent = '--'; chartStockChangeEl.textContent = '--'; applyChangeClass(chartStockChangeEl, NaN); removeFallbackIndicator(chartStockNameEl); addFallbackIndicator(chartStockNameEl, true); } finally { chartLoadingEl.style.display = 'none'; } }
+            async function fetchAndRenderNews() { newsGridContainer.innerHTML = ''; newsLoadingEl.style.display = 'block'; hideError(newsErrorEl); let isFallback = false; if (!NEWS_API_ORG_KEY || NEWS_API_ORG_KEY === 'YOUR_NEWSAPI_ORG_KEY_HERE') { console.warn("News API Key missing. Using fallback news."); isFallback = true; renderNewsCards(fallbackNews.articles, isFallback); newsLoadingEl.style.display = 'none'; displayError(newsErrorEl, "News API Key missing (*).", true); return; } const keywords = '(finance OR stock OR market OR economy OR RBI OR SEBI OR Nifty OR Sensex)'; const region = '(India OR Indian)'; const query = `${keywords} AND ${region}`; const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=en&sortBy=publishedAt&pageSize=6&apiKey=${NEWS_API_ORG_KEY}`; console.log("Fetching News URL:", url); try { const data = await fetchWrapper(url); if (data.error || data.status === 'error') { const errorMsg = data.message || (data.code ? `Code: ${data.code}` : 'Unknown API error'); throw new Error(errorMsg); } const articles = data.articles; newsLoadingEl.style.display = 'none'; if (!articles || articles.length === 0) { console.warn("No live news found. Using fallback news."); isFallback = true; renderNewsCards(fallbackNews.articles, isFallback); displayError(newsErrorEl, "No live news found (*).", true); return; } renderNewsCards(articles, false); } catch (error) { console.error("Error fetching news, using fallback:", error); isFallback = true; renderNewsCards(fallbackNews.articles, isFallback); newsLoadingEl.style.display = 'none'; displayError(newsErrorEl, `Could not load live news (*).`, true); } }
+            function renderNewsCards(articles, isFallback) { newsGridContainer.innerHTML = ''; if (!articles || articles.length === 0) { newsGridContainer.innerHTML = '<p class="loading-text">No news articles available.</p>'; return; } articles.forEach(article => { if (!article.title || article.title === '[Removed]') return; const newsCard = document.createElement('div'); newsCard.className = 'news-card'; const publishedDateStr = isFallback ? new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : new Date(article.publishedAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }); const imagePlaceholderSVG = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.5 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>`; const category = article.source?.name || 'Finance'; const snippet = article.description || article.content || 'No description available.'; const truncatedSnippet = snippet.length > 150 ? snippet.substring(0, 150) + '...' : snippet; const categoryTagText = `${category}${isFallback ? ' *' : ''}`; newsCard.innerHTML = `<div class="news-card-image" style="background-image: url('${article.urlToImage || ''}')">${!article.urlToImage ? imagePlaceholderSVG : ''}<span class="news-category-tag" ${isFallback ? 'title="Showing static/fallback data"' : ''}>${categoryTagText}</span></div><div class="news-card-content"><span class="news-card-date">${publishedDateStr}</span><h3 class="news-card-title"><a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a></h3><p class="news-card-snippet">${truncatedSnippet}</p><span class="news-card-source">Source: ${article.source?.name || 'N/A'}</span></div>`; newsGridContainer.appendChild(newsCard); }); }
+            if (marketTabsContainer) { marketTabsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('market-tab-button')) { marketTabsContainer.querySelectorAll('.market-tab-button').forEach(tab => tab.classList.remove('active')); e.target.classList.add('active'); const marketType = e.target.getAttribute('data-market-type'); fetchAndRenderMarketTable(marketType); if (marketType === 'Stocks') { if (!initialStockLoadDone) { initialStockLoadDone = true; renderChart({ type: 'stock', symbol: 'RELIANCE.BSE', name: 'Reliance Industries', currency: 'INR' }); fetchAndRenderIndices(true); } else { renderChart(currentChartAsset.type === 'stock' ? currentChartAsset : { type: 'stock', symbol: 'RELIANCE.BSE', name: 'Reliance Industries', currency: 'INR' }, currentChartTimespan); fetchAndRenderIndices(true); } } else if (marketType === 'Crypto') { renderChart({ type: 'crypto', id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', currency: 'USD' }, currentChartTimespan); } else if (marketType === 'Forex') { if (chartInstance) chartInstance.destroy(); chartLoadingEl.textContent = 'Charts not available for Forex.'; chartLoadingEl.style.display = 'flex'; hideError(chartErrorEl); chartStockNameEl.textContent = 'Forex'; chartStockPriceEl.textContent = '--'; chartStockChangeEl.textContent = '--'; applyChangeClass(chartStockChangeEl, NaN); removeFallbackIndicator(chartStockNameEl); fetchAndRenderIndices(true); } } }); }
+            if (chartTimespanButtonsContainer) { chartTimespanButtonsContainer.addEventListener('click', (e) => { if (e.target.classList.contains('timespan-button') && currentChartAsset) { const timespan = e.target.getAttribute('data-timespan'); renderChart(currentChartAsset, timespan, false); } }); }
+            if (marketTableBody) { marketTableBody.addEventListener('click', (e) => { const row = e.target.closest('tr'); const currentMarketType = marketTabsContainer.querySelector('.market-tab-button.active')?.getAttribute('data-market-type'); if (row && (currentMarketType === 'Stocks' || currentMarketType === 'Crypto')) { const symbol = row.getAttribute('data-symbol'); const name = row.getAttribute('data-name'); const currency = row.getAttribute('data-currency'); const id = row.getAttribute('data-id'); if (currentMarketType === 'Stocks' && symbol) { renderChart({ type: 'stock', symbol, name, currency }, currentChartTimespan, false); } else if (currentMarketType === 'Crypto' && id) { renderChart({ type: 'crypto', id, symbol, name, currency }, currentChartTimespan, false); } } }); }
+            function initializeResourcesSection() { let alphaKeyMissing = !ALPHA_VANTAGE_API_KEY || ALPHA_VANTAGE_API_KEY === 'YOUR_ALPHA_VANTAGE_KEY_HERE'; let newsKeyMissing = !NEWS_API_ORG_KEY || NEWS_API_ORG_KEY === 'YOUR_NEWSAPI_ORG_KEY_HERE'; if (marketTableLoadingRow) marketTableLoadingRow.innerHTML = `<td colspan="5" class="loading-text">Loading Crypto data...</td>`; if (chartLoadingEl) { chartLoadingEl.textContent = 'Loading default Crypto chart...'; chartLoadingEl.style.display = 'flex'; } if (indexContainer) indexContainer.querySelectorAll('.loading').forEach(el => el.textContent = '--'); if (alphaKeyMissing) { console.warn("Alpha Vantage API Key is missing or placeholder."); displayError(indexErrorEl, "Alpha Vantage API Key missing/invalid."); if(chartLoadingEl) chartLoadingEl.style.display = 'none'; } if (newsKeyMissing) { console.warn("NewsAPI.org Key is missing or placeholder."); fetchAndRenderNews(); } fetchAndRenderIndices(false); fetchAndRenderMarketTable('Crypto'); renderChart(currentChartAsset, currentChartTimespan); if (!newsKeyMissing) { fetchAndRenderNews(); } }
+
+            function createLeadCardHTML(lead) { return ` <div class="lead-card"> <div class="lead-photo-placeholder">👤</div> <div class="lead-info"> <h5>${lead.name || 'N/A'}</h5> <span>${lead.role || 'Team Lead'}</span> ${lead.email ? `<a href="mailto:${lead.email}">${lead.email}</a>` : ''} ${lead.linkedin ? `<br><a href="${lead.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>` : ''} </div> </div> `; }
+            function createDepartmentSlideHTML(department) { const descriptionHTML = department.description.map(p => `<p>${p}</p>`).join(''); const leadsHTML = department.leads.map(createLeadCardHTML).join(''); const slide = document.createElement('li'); slide.className = 'department-slide'; slide.innerHTML = ` <div class="slide-content"> <div class="department-description"> <h3>${department.title || 'Department'}</h3> ${descriptionHTML} </div> <aside class="department-leads"> <h4>Team Leads</h4> ${leadsHTML} </aside> </div> `; return slide; }
+            function initializeCarousel(carouselElement) { const track = carouselElement.querySelector('.carousel-track'); const slides = Array.from(track.children); const nextButton = carouselElement.querySelector('.carousel-button.next'); const prevButton = carouselElement.querySelector('.carousel-button.prev'); const dotsNav = carouselElement.querySelector('.carousel-nav'); const errorElement = carouselElement.querySelector('#department-error'); if (!track || slides.length === 0 || !nextButton || !prevButton || !dotsNav) { console.error("Carousel initialization failed: Missing required elements."); if(errorElement) displayError(errorElement, "Could not initialize department display."); return; } let slideWidth = slides[0].getBoundingClientRect().width; let currentIndex = 0; let isDragging = false; let startPos = 0; let currentTranslate = 0; let prevTranslate = 0; let animationID; const moveToSlide = (targetIndex) => { if (!slides[targetIndex]) return; slideWidth = slides[0].getBoundingClientRect().width; const newTranslate = -slideWidth * targetIndex; track.style.transform = `translateX(${newTranslate}px)`; slides.forEach((slide, index) => { slide.classList.toggle('current-slide', index === targetIndex); }); prevTranslate = newTranslate; currentIndex = targetIndex; }; const updateDots = (targetIndex) => { if (!dotsNav) return; const currentDot = dotsNav.querySelector('.current-slide'); const targetDot = dotsNav.children[targetIndex]; if (currentDot) currentDot.classList.remove('current-slide'); if (targetDot) targetDot.classList.add('current-slide'); }; const updateArrows = (targetIndex) => { if (!prevButton || !nextButton) return; prevButton.classList.toggle('is-hidden', targetIndex === 0); nextButton.classList.toggle('is-hidden', targetIndex === slides.length - 1); }; dotsNav.innerHTML = ''; slides.forEach((_, index) => { const button = document.createElement('button'); button.classList.add('carousel-indicator'); button.setAttribute('aria-label', `Go to department slide ${index + 1}`); button.addEventListener('click', () => { moveToSlide(index); updateDots(index); updateArrows(index); }); dotsNav.appendChild(button); }); nextButton.addEventListener('click', () => { if (currentIndex < slides.length - 1) { const nextIndex = currentIndex + 1; moveToSlide(nextIndex); updateDots(nextIndex); updateArrows(nextIndex); } }); prevButton.addEventListener('click', () => { if (currentIndex > 0) { const prevIndex = currentIndex - 1; moveToSlide(prevIndex); updateDots(prevIndex); updateArrows(prevIndex); } }); const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; const animation = () => { track.style.transform = `translateX(${currentTranslate}px)`; if (isDragging) requestAnimationFrame(animation); }; const touchStart = (e) => { startPos = getPositionX(e); isDragging = true; animationID = requestAnimationFrame(animation); track.style.transition = 'none'; }; const touchMove = (e) => { if (isDragging) { const currentPosition = getPositionX(e); currentTranslate = prevTranslate + currentPosition - startPos; } }; const touchEnd = () => { if (!isDragging) return; isDragging = false; cancelAnimationFrame(animationID); const movedBy = currentTranslate - prevTranslate; let newIndex = currentIndex; if (movedBy < -50 && currentIndex < slides.length - 1) newIndex++; else if (movedBy > 50 && currentIndex > 0) newIndex--; track.style.transition = 'transform 0.5s ease-in-out'; moveToSlide(newIndex); updateDots(newIndex); updateArrows(newIndex); }; track.addEventListener('touchstart', touchStart, { passive: true }); track.addEventListener('touchend', touchEnd); track.addEventListener('touchmove', touchMove, { passive: false }); track.addEventListener('mousedown', touchStart); track.addEventListener('mouseup', touchEnd); track.addEventListener('mouseleave', touchEnd); track.addEventListener('mousemove', touchMove); track.addEventListener('dragstart', (e) => e.preventDefault()); carouselElement.addEventListener('contextmenu', (e) => { if (isDragging) e.preventDefault(); }); let resizeTimer; window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { console.log("Resizing department carousel..."); slideWidth = slides[0].getBoundingClientRect().width; const currentTrackPosition = -currentIndex * slideWidth; track.style.transition = 'none'; track.style.transform = `translateX(${currentTrackPosition}px)`; prevTranslate = currentTrackPosition; setTimeout(() => { track.style.transition = 'transform 0.5s ease-in-out'; }, 50); }, 250); }); moveToSlide(currentIndex); updateDots(currentIndex); if (slides.length > 1) { nextButton.classList.remove('is-hidden'); } updateArrows(currentIndex); }
+            async function fetchAndRenderDepartments() { const track = document.getElementById('department-track'); const errorElement = document.getElementById('department-error'); const carouselElement = document.querySelector('.department-carousel'); if (!track || !carouselElement) { console.error("Department track or carousel element not found."); return; } hideError(errorElement); try { const response = await fetch('departments.json'); if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); } const departments = await response.json(); if (!departments || departments.length === 0) { track.innerHTML = '<li class="department-slide loading-state"><p>No departments found.</p></li>'; return; } track.innerHTML = ''; departments.forEach(dept => { const slideElement = createDepartmentSlideHTML(dept); track.appendChild(slideElement); }); initializeCarousel(carouselElement); } catch (error) { console.error("Error fetching or rendering departments:", error); track.innerHTML = '<li class="department-slide loading-state"><p>Could not load departments.</p></li>'; if(errorElement) displayError(errorElement, `Failed to load departments: ${error.message}`); } }
+
+            initializeResourcesSection();
+            fetchAndRenderDepartments();
+
+            const yearSpan = document.getElementById("current-year");
+            if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+
+        });
+    </script>
+</body>
+</html>
+

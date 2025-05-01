@@ -1,0 +1,80 @@
+[
+    {
+      "id": 1,
+      "title": "Investment Strategy Workshop",
+      "category": "Workshop",
+      "date": "2025-05-15",
+      "displayDate": "May 15",
+      "displayDateRange": "May 15, 2025",
+      "time": "3:00 PM - 5:00 PM",
+      "location": "Finance Building, Room 204",
+      "description": "Learn proven investment strategies from industry professionals to maximize your portfolio returns. This interactive workshop...",
+      "imagePlaceholder": true,
+      "registrationLink": "#"
+    },
+    {
+      "id": 2,
+      "title": "Cryptocurrency Summit",
+      "category": "Conference",
+      "date": "2025-05-22",
+      "displayDate": "May 22",
+      "displayDateRange": "May 22, 2025",
+      "time": "1:00 PM - 6:00 PM",
+      "location": "University Conference Center",
+      "description": "Explore the future of digital assets with expert panels, networking, and hands-on demonstrations. The summit will feature...",
+      "imagePlaceholder": true,
+      "registrationLink": "#"
+    },
+    {
+      "id": 3,
+      "title": "Financial Career Fair",
+      "category": "Networking",
+      "date": "2025-06-05",
+      "displayDate": "June 5",
+      "displayDateRange": "June 5, 2025",
+      "time": "10:00 AM - 4:00 PM",
+      "location": "Student Union Building",
+      "description": "Connect with top financial firms and explore internship and career opportunities in finance. Bring your resume and be...",
+      "imagePlaceholder": true,
+      "registrationLink": "#"
+    },
+    {
+      "id": 4,
+      "title": "Personal Finance Bootcamp",
+      "category": "Workshop",
+      "date": "2025-06-10",
+      "displayDate": "June 10-12",
+      "displayDateRange": "June 10-12, 2025",
+      "time": "10:00 AM - 2:00 PM",
+      "location": "Student Union Building, Conference Room A",
+      "description": "Master the essentials of personal finance, from budgeting and saving to investing for the future. Perfect for all majors.",
+      "imagePlaceholder": true,
+      "registrationLink": "#"
+    },
+    {
+      "id": 5,
+      "title": "Stock Market Simulation Challenge",
+      "category": "Competition",
+      "date": "2025-06-15",
+      "displayDate": "June 15",
+      "displayDateRange": "June 15, 2025 (Kickoff)",
+      "time": "4:00 PM - 6:00 PM",
+      "location": "Finance Building, Auditorium",
+      "description": "Join our semester-long stock market simulation. Compete against fellow members and learn trading strategies in a risk-free environment.",
+      "imagePlaceholder": true,
+      "registrationLink": "#"
+    },
+    {
+      "id": 6,
+      "title": "Financial Industry Networking Night",
+      "category": "Networking",
+      "date": "2025-06-20",
+      "displayDate": "June 20",
+      "displayDateRange": "June 20, 2025",
+      "time": "6:00 PM - 9:00 PM",
+      "location": "Alumni Center, Grand Hall",
+      "description": "Connect with alumni and professionals working in various sectors of the finance industry. Expand your network and gain insights.",
+      "imagePlaceholder": true,
+      "registrationLink": "#"
+    }
+  ]

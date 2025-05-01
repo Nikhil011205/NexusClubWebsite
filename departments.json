@@ -1,0 +1,65 @@
+[
+    {
+      "title": "Personal Finance & Investment Wing",
+      "description": [
+        "Dedicated to empowering members with essential personal finance skills, covering budgeting, saving, debt management, and introductory investment concepts. We aim to build a strong foundation for financial literacy and independence.",
+        "Activities include interactive workshops on creating budgets, understanding credit scores, exploring different savings vehicles, and demystifying basic investment options like mutual funds and ETFs."
+      ],
+      "leads": [
+        {
+          "name": "Priya Sharma",
+          "role": "Lead, Personal Finance",
+          "email": "priya.sharma@example.com",
+          "linkedin": null
+        },
+        {
+          "name": "Rohan Gupta",
+          "role": "Lead, Investment Basics",
+          "email": "rohan.gupta@example.com",
+          "linkedin": null
+        }
+      ]
+    },
+    {
+      "title": "Trading & Markets Wing",
+      "description": [
+        "Focuses on understanding market dynamics, technical analysis, and various trading strategies across different asset classes like equities and derivatives. We explore market trends and risk management techniques.",
+        "Engage in simulated trading competitions, workshops on chart patterns and indicators, guest lectures from professional traders, and discussions on current market events."
+      ],
+      "leads": [
+        {
+          "name": "Arjun Singh",
+          "role": "Lead, Equity Trading",
+          "email": "arjun.singh@example.com",
+          "linkedin": null
+        },
+        {
+          "name": "Sneha Patel",
+          "role": "Lead, Market Analysis",
+          "email": "sneha.patel@example.com",
+          "linkedin": null
+        }
+      ]
+    },
+    {
+      "title": "Corporate Finance & Consulting Wing",
+      "description": [
+        "Explores the financial decisions within corporations, including valuation, capital budgeting, M&A, and financial modeling. Also delves into the analytical and strategic aspects of finance consulting.",
+        "Participate in case study competitions, financial modeling bootcamps, valuation workshops, and networking sessions with professionals from investment banking and consulting firms."
+      ],
+      "leads": [
+        {
+          "name": "Vikram Mehta",
+          "role": "Lead, Corporate Finance",
+          "email": "vikram.mehta@example.com",
+          "linkedin": null
+        },
+        {
+          "name": "Ananya Reddy",
+          "role": "Lead, Consulting Prep",
+          "email": "ananya.reddy@example.com",
+          "linkedin": null
+        }
+      ]
+    }
+  ]
